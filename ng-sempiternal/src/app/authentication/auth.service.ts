@@ -20,4 +20,17 @@ export class AuthService {
       })
     });
   }
+
+  login(eMail: string, passWord: string) {
+    return this.httpClient.post(this.url + '/users/login', {
+      user: {
+        email: eMail,
+        password: passWord
+      }
+    }, {
+      headers: new HttpHeaders({
+        'content-type': 'application/json; charset=utf-8'
+      })
+    });
+  }
 }

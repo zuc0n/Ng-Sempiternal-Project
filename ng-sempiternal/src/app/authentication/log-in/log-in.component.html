@@ -8,18 +8,21 @@
                     <a href="">Need an account?</a>
                 </p>
 
-                <!-- <ul class="error-messages">
-                    <li>That email is already taken</li>
-                </ul> -->
+                <ul class="error-messages">
+                    <li *ngIf="submitted && user.controls.email.errors?.email">That email is invalid</li>
+                    <li *ngIf="submitted && user.controls.email.errors?.required">Email is required</li>
+                    <li *ngIf="submitted && user.controls.password.errors?.minlength">That password is too short</li>
+                    <li *ngIf="submitted && user.controls.password.errors?.required">Password is required</li>
+                </ul>
 
-                <form>
+                <form [formGroup]="user" (ngSubmit)="onSubmit()">
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="text" placeholder="Email">
+                        <input class="form-control form-control-lg" type="text" placeholder="Email" formControlName="email">
                     </fieldset>
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="password" placeholder="Password">
+                        <input class="form-control form-control-lg" type="password" placeholder="Password" formControlName="password">
                     </fieldset>
-                    <button class="btn btn-lg btn-primary pull-xs-right">
+                    <button class="btn btn-lg btn-primary pull-xs-right" type="submit">
                         Sign in
                     </button>
                 </form>

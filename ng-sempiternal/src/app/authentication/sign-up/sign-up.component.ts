@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -14,7 +15,7 @@ export class SignUpComponent implements OnInit {
     username: new FormControl('', [Validators.required]),
   });
   submitted = false;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -25,6 +26,7 @@ export class SignUpComponent implements OnInit {
     this.authService.register(this.user.value.username, this.user.value.email, this.user.value.password).subscribe(
       (response) => {
         localStorage.setItem('currentUser', JSON.stringify(response));
+        this.router.navigate(['/']);
       },
       err => console.log(err)
     );
