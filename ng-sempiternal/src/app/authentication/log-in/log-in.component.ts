@@ -15,6 +15,7 @@ export class LogInComponent implements OnInit {
   })
 
   submitted = false;
+  error: string;
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
@@ -31,6 +32,7 @@ export class LogInComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        
       }
     )
   }
