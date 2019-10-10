@@ -28,11 +28,12 @@ export class LogInComponent implements OnInit {
       (res) => {
         console.log(res);
         localStorage.setItem('currentUser', JSON.stringify(res));
+        this.authService.loginStatus.emit(res)
         this.router.navigate(['/']);
       },
       (err) => {
         console.log(err);
-        
+        this.error = Object.keys(err.error.errors)[0] + ' ' + err.error.errors['email or password'];
       }
     )
   }
