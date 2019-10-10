@@ -13,6 +13,7 @@
                     <li *ngIf="submitted && user.controls.email.errors?.required">Email is required</li>
                     <li *ngIf="submitted && user.controls.password.errors?.minlength">That password is too short</li>
                     <li *ngIf="submitted && user.controls.password.errors?.required">Password is required</li>
+                    <li *ngIf="submitted && error">{{error}}</li>   
                 </ul>
 
                 <form [formGroup]="user" (ngSubmit)="onSubmit()">

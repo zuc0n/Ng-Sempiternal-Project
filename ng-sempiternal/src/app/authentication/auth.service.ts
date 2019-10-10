@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthService {
+  loginStatus = new EventEmitter<any>()
   url = 'https://conduit.productionready.io/api';
   constructor(private httpClient: HttpClient) { }
 
