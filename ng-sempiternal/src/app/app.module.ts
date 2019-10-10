@@ -8,19 +8,27 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeModule } from './home/home.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { SettingsModule } from './settings/settings.module';
+import { SettingsComponent } from './settings/settings/settings.component';
+import { EditorModule } from './editor/editor.module';
+import { EditorComponent } from './editor/editor/editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SettingsComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HomeModule,
     AuthenticationModule,
-    FormsModule
+    FormsModule,
+    SettingsModule,
+    EditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
