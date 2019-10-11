@@ -9,17 +9,14 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeModule } from './home/home.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { SettingsModule } from './settings/settings.module';
-import { SettingsComponent } from './settings/settings/settings.component';
 import { EditorModule } from './editor/editor.module';
-import { EditorComponent } from './editor/editor/editor.component';
+import { ArticleModule } from './article/article.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    SettingsComponent,
-    EditorComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +25,8 @@ import { EditorComponent } from './editor/editor/editor.component';
     AuthenticationModule,
     FormsModule,
     SettingsModule,
-    EditorModule
+    EditorModule,
+    ArticleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
