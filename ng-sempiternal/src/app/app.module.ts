@@ -9,12 +9,18 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeModule } from './home/home.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ProfileModule } from './profile/profile.module';
+import { SettingsModule } from './settings/settings.module';
+import { SettingsComponent } from './settings/settings/settings.component';
+import { EditorModule } from './editor/editor.module';
+import { EditorComponent } from './editor/editor/editor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SettingsComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,
@@ -22,10 +28,9 @@ import { ProfileModule } from './profile/profile.module';
     HomeModule,
     AuthenticationModule,
     FormsModule,
-    ProfileModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SettingsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
 })
 export class AppModule { }
