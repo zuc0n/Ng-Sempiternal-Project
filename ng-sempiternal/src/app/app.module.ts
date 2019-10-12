@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeModule } from './home/home.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { ProfileModule } from './profile/profile.module';
 
 @NgModule({
   declarations: [
@@ -17,10 +18,12 @@ import { AuthenticationModule } from './authentication/authentication.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    
     HomeModule,
     AuthenticationModule,
-    FormsModule
+    FormsModule,
+    ProfileModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
