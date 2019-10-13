@@ -36,4 +36,11 @@ export class AuthService {
       })
     });
   }
+
+  getUsername() {
+    return this.user.username;
+  }
+  getToken() {
+    return this.token;
+  }
 }
