@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit {
   favAticles;
   username: string;
   curRoute: string;
-  constructor(private profile: ProfileService, private route: ActivatedRoute, public authService: AuthService) { }
+  constructor(public profile: ProfileService, private route: ActivatedRoute, public authService: AuthService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(item => {
