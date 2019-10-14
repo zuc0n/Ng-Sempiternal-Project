@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings/settings.component';
@@ -9,7 +10,8 @@ import { SettingsComponent } from './settings/settings.component';
   declarations: [SettingsComponent],
   imports: [
     CommonModule,
-    SettingsRoutingModule
+    SettingsRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class SettingsModule { }

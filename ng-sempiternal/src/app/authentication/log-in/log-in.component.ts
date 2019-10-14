@@ -26,8 +26,10 @@ export class LogInComponent implements OnInit {
     console.log(this.user.value);
     this.authService.login(this.user.value.email, this.user.value.password).subscribe(
       (res) => {
+        this.authService.isLoggedIn.emit(true);
         localStorage.setItem('user', JSON.stringify(res['user']));
         localStorage.setItem('jwtToken', res['user'].token);
+        localStorage.setItem('password', this.user.value.password);
         this.router.navigate(['/']);
       },
       (err) => {

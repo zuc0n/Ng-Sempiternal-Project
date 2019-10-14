@@ -25,8 +25,10 @@ export class SignUpComponent implements OnInit {
 
     this.authService.register(this.user.value.username, this.user.value.email, this.user.value.password).subscribe(
       (res) => {
+        this.authService.isLoggedIn.emit(true);
         this.authService.user = res['user'];
         localStorage.setItem('jwtToken', res['user'].token);
+        localStorage.setItem('password', this.user.value.password);
         this.router.navigate(['/']);
       },
       err => console.log(err)
