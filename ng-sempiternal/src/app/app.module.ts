@@ -8,10 +8,10 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeModule } from './home/home.module';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { ProfileModule } from './profile/profile.module';
 import { SettingsModule } from './settings/settings.module';
 import { EditorModule } from './editor/editor.module';
 import { ArticleModule } from './article/article.module';
+import { ProfileModule } from './profile/profile.module';
 
 @NgModule({
   declarations: [
@@ -27,10 +27,9 @@ import { ArticleModule } from './article/article.module';
     AppRoutingModule,
     SettingsModule,
     EditorModule,
-    ArticleModule,
-    // ReactiveFormsModulep
+    ProfileModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

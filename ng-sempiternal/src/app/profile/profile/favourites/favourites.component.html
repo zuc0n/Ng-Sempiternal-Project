@@ -1,0 +1,21 @@
+<div *ngIf="!articles">Loading articles...</div>
+<div class="article-preview" *ngFor="let item of articles">
+    <div class="article-meta">
+      <a href=""><img [src]="[item.author.image]" /></a>
+      <div class="info">
+        <a [routerLink]="['/profile', item.author.username]" class="author">{{item.author.username}}</a>
+        <span class="date">{{item.createdAt | date: "longDate"}}</span>
+      </div>
+      <button class="btn btn-outline-primary btn-sm pull-xs-right">
+        <i class="ion-heart"></i> {{item.favoritesCount}}
+      </button>
+    </div>
+    <a href="" class="preview-link">
+      <h1>{{item.title}}</h1>
+      <p>{{item.body}}</p>
+      <span>Read more...</span>
+      <ul class="tag-list">
+        <li class="tag-default tag-pill tag-outline" *ngFor="let tag of item.tagList">{{tag}}</li>
+      </ul>
+    </a>
+  </div>

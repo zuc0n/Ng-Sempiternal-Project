@@ -9,8 +9,11 @@ import { User } from '../authentication/user';
 })
 export class HeaderComponent implements OnInit {
   constructor(public authService: AuthService) { }
-
+  status: boolean;
   ngOnInit() {
+    this.authService.isLoggedIn.subscribe(login => this.status = login);
+    if (localStorage.getItem('jwtToken') != null) {
+      this.status = true;
+    }
   }
-
 }

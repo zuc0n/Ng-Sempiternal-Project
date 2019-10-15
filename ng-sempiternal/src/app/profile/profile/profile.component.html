@@ -1,1 +1,48 @@
-<p>profile works!</p>
+<div class="profile-page">
+
+  <div class="user-info">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-xs-12 col-md-10 offset-md-1">
+          <img [src]="[data?.image]" class="user-img" />
+          <h4>{{data?.username}}</h4>
+          <p>
+            {{data?.bio}}
+          </p>
+          <button class="btn btn-sm btn-outline-secondary action-btn" routerLink = '/settings'>
+            <i class="ion-gear-a"></i>
+            &nbsp;
+            Edit Profile Settings
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+
+      <div class="col-xs-12 col-md-10 offset-md-1">
+        <div class="articles-toggle">
+          <ul class="nav nav-pills outline-active">
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/profile', profile.username]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact:
+                true}">My
+                Articles</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/profile', profile.username, 'favourites']"
+                routerLinkActive="active" [routerLinkActiveOptions]="{exact:
+                  true}">Favorited Articles</a>
+            </li>
+          </ul>
+        </div>
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
+  </div>
+</div>
