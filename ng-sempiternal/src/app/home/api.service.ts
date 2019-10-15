@@ -7,12 +7,23 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  url = 'https://conduit.productionready.io/api/articles';
+  feedUrl = 'https://conduit.productionready.io/api/articles';
+  tagUrl = 'https://conduit.productionready.io/api/tags';
   constructor(private http: HttpClient) { }
 
-  feedArticle(): Observable<any> {
-    return this.http.get(this.url, {
-      params: { }
+  feedArticle(offset, tag = ''): Observable<any> {
+    return this.http.get(this.feedUrl, {
+      params: {
+        limit: '10',
+        offset,
+        tag
+      }
     });
   }
+
+  tagArticle(): Observable<any> {
+    return this.http.get(this.tagUrl);
+  }
+
+
 }
