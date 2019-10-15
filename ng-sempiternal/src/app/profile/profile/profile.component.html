@@ -16,10 +16,15 @@
             &nbsp;
             Edit Profile Settings
           </button>
-          <button class="btn btn-sm btn-outline-secondary action-btn" (click)="follow()" *ngIf="username !== currentUser">
+          <button class="btn btn-sm btn-outline-secondary action-btn" (click)="unfollow()" *ngIf="username !== currentUser && followStatus">
             <i class="ion-plus-round"></i>
             &nbsp;
-            {{followStatus}} {{username}}
+            Unfollow {{username}}
+          </button>
+          <button class="btn btn-sm btn-outline-secondary action-btn" (click)="follow()" *ngIf="username !== currentUser && !followStatus">
+            <i class="ion-plus-round"></i>
+            &nbsp;
+            Follow {{username}}
           </button>
         </div>
       </div>

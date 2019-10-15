@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { User } from '../user';
+
+export interface Response{
+  user: User;
+}
 
 @Component({
   selector: 'app-log-in',
@@ -25,10 +30,13 @@ export class LogInComponent implements OnInit {
     this.submitted = true;
     console.log(this.user.value);
     this.authService.login(this.user.value.email, this.user.value.password).subscribe(
-      (res) => {
+      (res: Response) => {
         this.authService.isLoggedIn.emit(true);
-        localStorage.setItem('user', JSON.stringify(res['user']));
-        localStorage.setItem('jwtToken', res['user'].token);
+        localStorage.setItem('bio', res.user.bio);
+        localStorage.setItem('email', res.user.email);
+        localStorage.setItem('image', res.user.image);
+        localStorage.setItem('username', res.user.username);
+        localStorage.setItem('jwtToken', res.user.token);
         localStorage.setItem('password', this.user.value.password);
         this.router.navigate(['/']);
       },

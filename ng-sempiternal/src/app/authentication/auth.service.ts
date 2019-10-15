@@ -7,7 +7,7 @@ export class AuthService {
   user: User = JSON.parse(localStorage.getItem('user'));
   token = localStorage.getItem('jwtToken');
   url = 'https://conduit.productionready.io/api';
-  isLoggedIn = new EventEmitter<boolean>();
+  isLoggedIn = new EventEmitter<boolean>(false);
   constructor(private httpClient: HttpClient) { }
 
   register(userName: string, eMail: string, passWord: string) {

@@ -1,6 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { AuthService } from '../authentication/auth.service';
-import { User } from '../authentication/user';
 
 @Component({
   selector: 'app-header',
@@ -10,10 +9,13 @@ import { User } from '../authentication/user';
 export class HeaderComponent implements OnInit {
   constructor(public authService: AuthService) { }
   status: boolean;
-  user = JSON.parse(localStorage.getItem('user'));
-  username = this.user.username;
+  username = localStorage.getItem('username');
   ngOnInit() {
-    this.authService.isLoggedIn.subscribe(login => this.status = login);
+    this.authService.isLoggedIn.subscribe((login) => {
+      console.log('vao');
+      this.status = login;
+      this.username = localStorage.getItem('username');
+    });
     if (localStorage.getItem('jwtToken') != null) {
       this.status = true;
     }

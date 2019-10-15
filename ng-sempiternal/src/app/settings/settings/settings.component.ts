@@ -16,13 +16,12 @@ export class SettingsComponent implements OnInit {
   constructor(public setting: SettingsService, private auth: AuthService) { }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('user'));
     this.settings = new FormGroup({
-      'image': new FormControl(this.user.image),
-      'username': new FormControl(this.user.username, Validators.required),
-      'bio': new FormControl(this.user.bio),
-      'email': new FormControl(this.user.email, [Validators.required, Validators.required]),
-      'password': new FormControl(this.password, [Validators.required, Validators.minLength(8)])
+      'image': new FormControl(localStorage.getItem('image')),
+      'username': new FormControl(localStorage.getItem('username'), Validators.required),
+      'bio': new FormControl(localStorage.getItem('bio')),
+      'email': new FormControl(localStorage.getItem('email'), [Validators.required, Validators.required]),
+      'password': new FormControl(localStorage.getItem('password'), [Validators.required, Validators.minLength(8)])
     })
   }
   onSubmit () {
