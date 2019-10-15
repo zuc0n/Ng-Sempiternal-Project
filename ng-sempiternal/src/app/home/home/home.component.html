@@ -12,48 +12,40 @@
                 <div class="feed-toggle">
                     <ul class="nav nav-pills outline-active">
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="">Your Feed</a>
+                            <a class="nav-link" *ngIf="localstorage">Your Feed</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="">Global Feed</a>
+                            <a class="nav-link" [ngClass]="global ? 'active' : ''" (click)="handleGlobal()">Global
+                                Feed</a>
+                        </li>
+                        <li class="nav-item active" *ngIf="checkTabTag">
+                            <a class="nav-link active">#{{ nameTag }}</a>
                         </li>
                     </ul>
                 </div>
 
-                <div class="article-preview">
+                <div class="article-preview" *ngFor="let feed of listArticle">
                     <div class="article-meta">
-                        <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
+                        <a href="profile.html"><img [src]="feed.author.image" /></a>
                         <div class="info">
-                            <a href="" class="author">Eric Simons</a>
-                            <span class="date">January 20th</span>
+                            <a href="" class="author">{{ feed.author.username }}</a>
+                            <span class="date"> {{ feed.createdAt | date }}</span>
                         </div>
-                        <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                            <i class="ion-heart"></i> 29
+                        <button class="btn btn-outline-primary btn-sm pull-xs-right" (click)="handleFavorite(feed.favorited)">
+                            <i class="ion-heart"></i> {{ feed.favoritesCount }}
                         </button>
                     </div>
                     <a href="" class="preview-link">
-                        <h1>How to build webapps that scale</h1>
-                        <p>This is the description for the post.</p>
+                        <h1> {{ feed.body }}</h1>
+                        <p> {{ feed.description }}</p>
                         <span>Read more...</span>
                     </a>
-                </div>
-
-                <div class="article-preview">
-                    <div class="article-meta">
-                        <a href="profile.html"><img src="http://i.imgur.com/N4VcUeJ.jpg" /></a>
-                        <div class="info">
-                            <a href="" class="author">Albert Pai</a>
-                            <span class="date">January 20th</span>
-                        </div>
-                        <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                            <i class="ion-heart"></i> 32
-                        </button>
-                    </div>
-                    <a href="" class="preview-link">
-                        <h1>The song you won't ever stop singing. No matter how hard you try.</h1>
-                        <p>This is the description for the post.</p>
-                        <span>Read more...</span>
-                    </a>
+                    <ul class="tag-list">
+                        <li class="tag-default tag-pill tag-outline ng-binding ng-scope"
+                            *ngFor="let item of feed.tagList" (click)="handleTag(item)">
+                            {{ item }}
+                            </li>
+                    </ul>
                 </div>
 
             </div>
@@ -63,17 +55,20 @@
                     <p>Popular Tags</p>
 
                     <div class="tag-list">
-                        <a href="" class="tag-pill tag-default">programming</a>
-                        <a href="" class="tag-pill tag-default">javascript</a>
-                        <a href="" class="tag-pill tag-default">emberjs</a>
-                        <a href="" class="tag-pill tag-default">angular</a>
-                        <a href="" class="tag-pill tag-default">react</a>
-                        <a href="" class="tag-pill tag-default">mean</a>
-                        <a href="" class="tag-pill tag-default">node</a>
-                        <a href="" class="tag-pill tag-default">rails</a>
+                        <a class="tag-pill tag-default" *ngFor="let tag of listTags" (click)="handleTag(tag)"> {{ tag }}
+                        </a>
                     </div>
                 </div>
             </div>
+
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item" *ngFor="let page of pages; index as i"
+                        [ngClass]="i*10 === currentIndex ? 'active' : ''">
+                        <a class="page-link ng-binding" (click)="handlePagination(10*i)"> {{ page }} </a>
+                    </li>
+                </ul>
+            </nav>
 
         </div>
     </div>

@@ -9,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class SettingsService {
   url = 'https://conduit.productionready.io/api/user';
   token = this.auth.getToken();
-  
   constructor(private http: HttpClient, private auth : AuthService, private router: Router) { }
 
   updateUser(newEmail: string, newBio: string, newImage: string, newUsername: string, newPassword: string) {

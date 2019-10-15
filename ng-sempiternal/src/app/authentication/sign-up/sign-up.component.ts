@@ -26,7 +26,9 @@ export class SignUpComponent implements OnInit {
     this.authService.register(this.user.value.username, this.user.value.email, this.user.value.password).subscribe(
       (res) => {
         this.authService.isLoggedIn.emit(true);
+        // tslint:disable-next-line: no-string-literal
         this.authService.user = res['user'];
+        // tslint:disable-next-line: no-string-literal
         localStorage.setItem('jwtToken', res['user'].token);
         localStorage.setItem('password', this.user.value.password);
         localStorage.setItem('user', JSON.stringify(res['user']));

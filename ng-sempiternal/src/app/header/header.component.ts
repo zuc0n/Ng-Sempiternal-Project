@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
   user = JSON.parse(localStorage.getItem('user'));
   username = this.user.username;
   ngOnInit() {
-    this.authService.isLoggedIn.subscribe(login => this.status = login)
+    this.authService.isLoggedIn.subscribe(login => this.status = login);
     if (localStorage.getItem('jwtToken') != null) {
       this.status = true;
     }
