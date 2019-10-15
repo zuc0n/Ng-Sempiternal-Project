@@ -10,6 +10,8 @@ import { User } from '../authentication/user';
 export class HeaderComponent implements OnInit {
   constructor(public authService: AuthService) { }
   status: boolean;
+  user = JSON.parse(localStorage.getItem('user'));
+  username = this.user.username;
   ngOnInit() {
     this.authService.isLoggedIn.subscribe(login => this.status = login)
     if (localStorage.getItem('jwtToken') != null) {

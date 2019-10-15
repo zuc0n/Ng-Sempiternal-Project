@@ -10,13 +10,18 @@
           <p>
             {{data?.bio}}
           </p>
-          <button class="btn btn-sm btn-outline-secondary action-btn" routerLink = '/settings'>
+          <button class="btn btn-sm btn-outline-secondary action-btn" routerLink="/settings"
+            *ngIf="username === currentUser">
             <i class="ion-gear-a"></i>
             &nbsp;
             Edit Profile Settings
           </button>
+          <button class="btn btn-sm btn-outline-secondary action-btn" (click)="follow()" *ngIf="username !== currentUser">
+            <i class="ion-plus-round"></i>
+            &nbsp;
+            {{followStatus}} {{username}}
+          </button>
         </div>
-
       </div>
     </div>
   </div>
@@ -35,12 +40,11 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" [routerLink]="['/profile', profile.username, 'favourites']"
-                routerLinkActive="active" [routerLinkActiveOptions]="{exact:
-                  true}">Favorited Articles</a>
+                routerLinkActive="active">Favorited Articles</a>
             </li>
           </ul>
         </div>
-        <router-outlet></router-outlet>
+        <app-articlelist></app-articlelist>
       </div>
 
     </div>

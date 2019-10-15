@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SettingsService } from '../settings.service';
 import { AuthService } from 'src/app/authentication/auth.service';
+import { User } from 'src/app/authentication/user';
 
 @Component({
   selector: 'app-settings',
@@ -11,15 +12,16 @@ import { AuthService } from 'src/app/authentication/auth.service';
 export class SettingsComponent implements OnInit {
   settings: FormGroup;
   password = localStorage.getItem('password');
+  user: User;
   constructor(public setting: SettingsService, private auth: AuthService) { }
 
   ngOnInit() {
-    console.log(this.auth.user);
+    this.user = JSON.parse(localStorage.getItem('user'));
     this.settings = new FormGroup({
-      'image': new FormControl(this.auth.user.image),
-      'username': new FormControl(this.auth.user.username, Validators.required),
-      'bio': new FormControl(this.auth.user.bio),
-      'email': new FormControl(this.auth.user.email, [Validators.required, Validators.required]),
+      'image': new FormControl(this.user.image),
+      'username': new FormControl(this.user.username, Validators.required),
+      'bio': new FormControl(this.user.bio),
+      'email': new FormControl(this.user.email, [Validators.required, Validators.required]),
       'password': new FormControl(this.password, [Validators.required, Validators.minLength(8)])
     })
   }

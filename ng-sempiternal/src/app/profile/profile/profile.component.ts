@@ -11,26 +11,38 @@ import { AuthService } from 'src/app/authentication/auth.service';
 })
 export class ProfileComponent implements OnInit {
   data: Profile;
-  articles;
-  favAticles;
   username: string;
-  curRoute: string;
+  currentUser: string;
+  followStatus;
   constructor(public profile: ProfileService, private route: ActivatedRoute, public authService: AuthService) { }
 
   ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem('user')).username;
     this.route.paramMap.subscribe(item => {
-      console.log(item);
       this.username = item.get('username');
-      this.profile.username = this.username;
+      this.profile.username = item.get('username');
       this.profile.getProfile(this.username).subscribe(data => {
+        console.log(data);
         // tslint:disable-next-line:no-string-literal
         this.data = data['profile'];
-      });
-      this.profile.getListArtical(this.username).subscribe(data => {
-        // tslint:disable-next-line:no-string-literal
-        this.articles = data['articles'];
+        this.checkFollow(this.data.following);
       });
     });
+  }
+
+  follow() {
+    this.profile.follow(this.username).subscribe(data => {
+      console.log(data);
+      this.checkFollow(data['profile'].following);
+    })
+  }
+
+  checkFollow(status) {
+    if(status) {
+      this.followStatus = "Unfollow"
+    }else {
+      this.followStatus = "Follow"
+    }
   }
 
 }
