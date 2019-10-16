@@ -41,7 +41,6 @@ export class HomeComponent implements OnInit {
   pages = [];
   tagPages = [];
   currentIndex = 0;
-  checkToken;
   localstorage = false;
 
   constructor(private apiService: ApiService, private router: Router) { }
@@ -63,12 +62,9 @@ export class HomeComponent implements OnInit {
       // tslint:disable-next-line: no-string-literal
       this.listTags = data['tags'];
     });
-
-    this.checkToken = () => {
-      if (localStorage.getItem('token')) {
-        return this.localstorage === true;
-      }
-    };
+    if (localStorage.getItem('jwtToken') != null) {
+      return this.localstorage = true;
+    }
   }
 
   handleTag(tag) {
@@ -116,5 +112,9 @@ export class HomeComponent implements OnInit {
        favor.favoritesCount--;
       }
     }
+  }
+
+  handleArticle() {
+    this.router.navigate(['/article', ]);
   }
 }

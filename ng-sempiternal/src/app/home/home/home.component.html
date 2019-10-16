@@ -28,16 +28,16 @@
                     <div class="article-meta">
                         <a href="profile.html"><img [src]="feed.author.image" /></a>
                         <div class="info">
-                            <a href="" class="author">{{ feed.author.username }}</a>
-                            <span class="date"> {{ feed.createdAt | date }}</span>
+                            <a href="" class="author">{{ feed?.author?.username }}</a>
+                            <span class="date"> {{ feed?.createdAt | date }}</span>
                         </div>
                         <button class="btn btn-outline-primary btn-sm pull-xs-right" (click)="handleFavorite(feed.favorited)">
-                            <i class="ion-heart"></i> {{ feed.favoritesCount }}
+                            <i class="ion-heart"></i> {{ feed?.favoritesCount }}
                         </button>
                     </div>
-                    <a href="" class="preview-link">
-                        <h1> {{ feed.body }}</h1>
-                        <p> {{ feed.description }}</p>
+                    <a class="preview-link" (click)="handleArticle()">
+                        <h1> {{ feed?.body }}</h1>
+                        <p> {{ feed?.description }}</p>
                         <span>Read more...</span>
                     </a>
                     <ul class="tag-list">

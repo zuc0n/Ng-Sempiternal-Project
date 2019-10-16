@@ -11,7 +11,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { ProfileModule } from './profile/profile.module';
 import { SettingsModule } from './settings/settings.module';
 import { EditorModule } from './editor/editor.module';
-import { ArticleModule } from './article/article.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +26,6 @@ import { ArticleModule } from './article/article.module';
     AppRoutingModule,
     SettingsModule,
     EditorModule,
-    ArticleModule
   ],
   providers: [],
 })
