@@ -31,7 +31,7 @@ export class SignUpComponent implements OnInit {
         localStorage.setItem('email', res.user.email);
         localStorage.setItem('image', res.user.image);
         localStorage.setItem('username', res.user.username);
-        localStorage.setItem('jwtToken', res['user'].token);
+        localStorage.setItem('jwtToken', res.user.token);
         localStorage.setItem('password', this.user.value.password);
         this.authService.sendUser(res.user);
         this.router.navigate(['/']);

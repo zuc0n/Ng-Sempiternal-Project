@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings/settings.component';
+import { CanDeactivateGuard } from './can-deactive.guard';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { SettingsComponent } from './settings/settings.component';
     CommonModule,
     SettingsRoutingModule,
     ReactiveFormsModule
-  ]
+  ],
+  providers: [CanDeactivateGuard]
 })
 export class SettingsModule { }

@@ -18,7 +18,7 @@ export class ProfileService {
     return this.http.get((this.api + `profiles/${url}`), {
       headers: new HttpHeaders({
         'content-type': 'application/json; charset=utf-8',
-        'Authorization': `Token ${this.token}`,
+        Authorization: `Token ${this.token}`,
       })
     });
   }
@@ -32,22 +32,21 @@ export class ProfileService {
   }
 
   follow(username) {
-    return this.http.post((this.api + `profiles/${username}/follow`),{
-      
+    return this.http.post((this.api + `profiles/${username}/follow`), {
     }, {
       headers: new HttpHeaders({
         'content-type': 'application/json; charset=utf-8',
-        'Authorization': `Token ${this.token}`,
+        Authorization: `Token ${this.token}`,
       })
     });
   }
 
 
   unfollow(username) {
-    return this.http.delete((this.api + `profiles/${username}/follow`),{
+    return this.http.delete((this.api + `profiles/${username}/follow`), {
       headers: new HttpHeaders({
         'content-type': 'application/json; charset=utf-8',
-        'Authorization': `Token ${this.token}`,
+        Authorization: `Token ${this.token}`,
       })
     });
   }

@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 export class AuthService {
   token = localStorage.getItem('jwtToken');
   url = 'https://conduit.productionready.io/api';
-  isLoggedIn = new EventEmitter<boolean>(false);
+  isLoggedIn = new EventEmitter<boolean>();
 
   private user = new Subject<User>();
 

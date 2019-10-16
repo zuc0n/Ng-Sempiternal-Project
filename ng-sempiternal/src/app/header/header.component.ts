@@ -22,10 +22,10 @@ export class HeaderComponent implements OnInit {
     }
     this.authService.getUser().subscribe((user: User) => {
       this.username = user.username;
-    })
+    });
     this.setting.getUsername().subscribe((username: string) => {
       this.username = username;
-    })
+    });
     this.username = localStorage.getItem('username');
   }
 }

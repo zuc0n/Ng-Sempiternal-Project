@@ -4,7 +4,7 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { User } from '../user';
 
-export interface Response{
+export interface Response {
   user: User;
 }
 
@@ -17,7 +17,7 @@ export class LogInComponent implements OnInit {
   user = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
-  })
+  });
 
   submitted = false;
   error: string;
@@ -46,6 +46,6 @@ export class LogInComponent implements OnInit {
         console.log(err);
         this.error = Object.keys(err.error.errors)[0] + ' ' + err.error.errors['email or password'];
       }
-    )
+    );
   }
 }

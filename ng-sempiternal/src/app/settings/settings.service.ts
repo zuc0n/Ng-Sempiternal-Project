@@ -11,16 +11,16 @@ export class SettingsService {
   url = 'https://conduit.productionready.io/api/user';
   token = this.auth.getToken();
   username = new Subject<string>();
-  constructor(private http: HttpClient, private auth : AuthService, private router: Router) { }
+  constructor(private http: HttpClient, private auth: AuthService, private router: Router) { }
 
   updateUser(newEmail: string, newBio: string, newImage: string, newUsername: string, newPassword: string) {
     return this.http.put(this.url, {
-        "user":{
-          "email": newEmail,
-          "bio": newBio,
-          "image": newImage,
-          "username": newUsername,
-          "password": newPassword
+        user: {
+          email: newEmail,
+          bio: newBio,
+          image: newImage,
+          username: newUsername,
+          password: newPassword
         }
     }, {
       headers: new HttpHeaders({
