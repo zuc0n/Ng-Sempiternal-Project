@@ -33,7 +33,7 @@ export class SignUpComponent implements OnInit {
         localStorage.setItem('username', res.user.username);
         localStorage.setItem('jwtToken', res['user'].token);
         localStorage.setItem('password', this.user.value.password);
-        localStorage.setItem('user', JSON.stringify(res['user']));
+        this.authService.sendUser(res.user);
         this.router.navigate(['/']);
       },
       err => console.log(err)

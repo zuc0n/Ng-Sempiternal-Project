@@ -38,6 +38,8 @@ export class LogInComponent implements OnInit {
         localStorage.setItem('username', res.user.username);
         localStorage.setItem('jwtToken', res.user.token);
         localStorage.setItem('password', this.user.value.password);
+
+        this.authService.sendUser(res.user);
         this.router.navigate(['/']);
       },
       (err) => {

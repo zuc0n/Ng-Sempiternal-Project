@@ -15,7 +15,12 @@ export class ProfileService {
   constructor(private http: HttpClient, public auth: AuthService, private route: ActivatedRoute) { }
 
   getProfile(url) {
-    return this.http.get((this.api + `profiles/${url}`));
+    return this.http.get((this.api + `profiles/${url}`), {
+      headers: new HttpHeaders({
+        'content-type': 'application/json; charset=utf-8',
+        'Authorization': `Token ${this.token}`,
+      })
+    });
   }
 
   getListArtical(url) {

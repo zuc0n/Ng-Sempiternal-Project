@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SettingsService } from '../settings.service';
 import { AuthService } from 'src/app/authentication/auth.service';
 import { User } from 'src/app/authentication/user';
+import { Response } from 'src/app/authentication/log-in/log-in.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +15,7 @@ export class SettingsComponent implements OnInit {
   settings: FormGroup;
   password = localStorage.getItem('password');
   user: User;
-  constructor(public setting: SettingsService, private auth: AuthService) { }
+  constructor(public setting: SettingsService, private router: Router) { }
 
   ngOnInit() {
     this.settings = new FormGroup({
@@ -26,9 +28,14 @@ export class SettingsComponent implements OnInit {
   }
   onSubmit () {
     console.log(this.settings.value);
-    this.setting.updateUser(this.settings.value.email, this.settings.value.bio, this.settings.value.image, this.settings.value.username, this.settings.value.password).subscribe(data => {
-      localStorage.setItem('user', JSON.stringify(data['user']));
-      localStorage.setItem('password', this.settings.value.password) 
+    this.setting.updateUser(this.settings.value.email, this.settings.value.bio, this.settings.value.image, this.settings.value.username, this.settings.value.password).subscribe((data: Response) => {
+      localStorage.setItem('password', this.settings.value.password) ;
+      localStorage.setItem('bio', data.user.bio);
+        localStorage.setItem('email', data.user.email);
+        localStorage.setItem('image', data.user.image);
+        localStorage.setItem('username', data.user.username);
+        this.setting.sendUsername(data.user.username);
+        this.router.navigate(['/profile', data.user.username]);
     })
   }
 
