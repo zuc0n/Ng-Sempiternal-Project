@@ -15,30 +15,30 @@ export class ProfileService {
   constructor(private http: HttpClient, public auth: AuthService, private route: ActivatedRoute) { }
 
   getProfile(url) {
-    return this.http.get((this.api + `profiles/${url}`), {
+    return (this.token) ? this.http.get((this.api + `profiles/${url}`), {
       headers: new HttpHeaders({
         'content-type': 'application/json; charset=utf-8',
         Authorization: `Token ${this.token}`,
       })
-    });
+    }) : this.http.get((this.api + `profiles/${url}`))
   }
 
   getListArtical(url) {
-    return this.http.get((this.api + `articles?author=${url}&limit=5&offset=0`), {
+    return (this.token) ? this.http.get((this.api + `articles?author=${url}&limit=5&offset=0`), {
       headers: new HttpHeaders({
         'content-type': 'application/json; charset=utf-8',
         Authorization: `Token ${this.token}`,
       })
-    });
+    }): this.http.get((this.api + `articles?author=${url}&limit=5&offset=0`))
   }
 
   getFavArtical(url) {
-    return this.http.get((this.api + `articles?favorited=${url}&limit=5&offset=0`), {
+    return (this.token) ? this.http.get((this.api + `articles?favorited=${url}&limit=5&offset=0`), {
       headers: new HttpHeaders({
         'content-type': 'application/json; charset=utf-8',
         Authorization: `Token ${this.token}`,
       })
-    });
+    }) : this.http.get((this.api + `articles?favorited=${url}&limit=5&offset=0`))
   }
 
   follow(username) {

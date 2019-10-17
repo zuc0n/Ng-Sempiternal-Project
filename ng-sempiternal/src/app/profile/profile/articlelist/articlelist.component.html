@@ -1,12 +1,12 @@
 <div *ngIf="!articles">Loading articles...</div>
-<div class="article-preview" *ngFor="let item of articles">
+<div class="article-preview" *ngFor="let item of articles; let i = index">
     <div class="article-meta">
       <a href=""><img [src]="[item.author.image]" /></a>
       <div class="info">
         <a [routerLink]="['/profile', item.author.username]" class="author">{{item.author.username}}</a>
         <span class="date">{{item.createdAt | date: "short-date"}}</span>
       </div>
-      <button class="btn btn-outline-primary btn-sm pull-xs-right" (click)="!item.favorited? fav(item.slug): unfav(item.slug)" appFavorite favourite={{item.favorited}} [ngClass]="{'favorite':item.favorited}">
+      <button class="btn btn-outline-primary btn-sm pull-xs-right" (click)="handleClick(item.favorited, item.slug, i)" [ngClass]="{'favorite':item.favorited}">
         <i class="ion-heart"></i> {{item.favoritesCount}}
       </button>
     </div>
