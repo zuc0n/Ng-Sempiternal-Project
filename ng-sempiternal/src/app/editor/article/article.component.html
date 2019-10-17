@@ -11,16 +11,28 @@
                     <a href="" class="author"> {{ article?.author?.username }} </a>
                     <span class="date"> {{ article?.createdAt | date }}</span>
                 </div>
-                <button class="btn btn-sm btn-outline-secondary">
+                <button class="btn btn-sm btn-outline-primary" *ngIf=!isAuthor (click)="handleFollow()">
                     <i class="ion-plus-round"></i>
                     &nbsp;
                     Follow {{ article?.author?.username }} <span class="counter">({{ article?.favoritesCount }})</span>
                 </button>
-                &nbsp;&nbsp;
-                <button class="btn btn-sm btn-outline-primary">
+                &nbsp;
+                <button class="btn btn-sm btn-outline-primary" *ngIf=!isAuthor (click)="handleFavorite()">
                     <i class="ion-heart"></i>
                     &nbsp;
                     Favorite Post <span class="counter">({{ article?.favoritesCount }})</span>
+                </button>
+                &nbsp;
+                <button class="btn btn-sm btn-outline-secondary" *ngIf=isAuthor (click)="handleEditArticle()">
+                    <i class="ion-edit"></i>
+                    &nbsp;
+                    Edit Article
+                </button>
+                &nbsp;&nbsp;
+                <button class="btn btn-sm btn-outline-danger" *ngIf=isAuthor (click)="handleDeleteArticle()">
+                    <i class="ion-trash-a"></i>
+                    &nbsp;
+                    Delete Article
                 </button>
             </div>
 
@@ -47,16 +59,28 @@
                     <span class="date">{{ article?.createdAt | date }}</span>
                 </div>
 
-                <button class="btn btn-sm btn-outline-secondary">
+                <button class="btn btn-sm btn-outline-secondary" *ngIf=!isAuthor (click)="handleFollow()">
                     <i class="ion-plus-round"></i>
                     &nbsp;
                     Follow {{ article?.author?.username }} <span class="counter">({{ article?.favoritesCount }})</span>
                 </button>
                 &nbsp;
-                <button class="btn btn-sm btn-outline-primary">
+                <button class="btn btn-sm btn-outline-secondary" *ngIf=!isAuthor (click)="handleFavorite()">
                     <i class="ion-heart"></i>
                     &nbsp;
                     Favorite Post <span class="counter">({{ article?.favoritesCount }})</span>
+                </button>
+                &nbsp;
+                <button class="btn btn-sm btn-outline-secondary" *ngIf=isAuthor (click)="handleEditArticle()">
+                    <i class="ion-edit"></i>
+                    &nbsp;
+                    Edit Article
+                </button>
+                &nbsp;&nbsp;
+                <button class="btn btn-sm btn-outline-danger" *ngIf=isAuthor (click)="handleDeleteArticle()">
+                    <i class="ion-trash-a"></i>
+                    &nbsp;
+                    Delete Article
                 </button>
             </div>
         </div>
@@ -89,7 +113,7 @@
                         <a href="" class="comment-author">{{comment?.author?.username}}</a>
                         <span class="date-posted">{{comment?.createdAt | date}}</span>
                         <span class="mod-options">
-                            <i class="ion-trash-a" (click)="handleDeleteComment()"></i>
+                            <i class="ion-trash-a" (click)="handleDeleteComment(comment.id)"></i>
                         </span>
                     </div>
                 </div>
