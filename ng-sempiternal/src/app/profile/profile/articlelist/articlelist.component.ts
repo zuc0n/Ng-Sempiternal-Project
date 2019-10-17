@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../../profile.service';
 import { ActivatedRoute } from '@angular/router';
+import { Res } from 'src/app/home/home/home.component';
 
 @Component({
   selector: 'app-articlelist',
@@ -13,18 +14,29 @@ export class ArticlelistComponent implements OnInit {
   articles;
   ngOnInit() {
     this.route.url.subscribe(data => {
-      if(data.length === 2) {
-        this.profile.getListArtical(data[1].path).subscribe(res => {
-          // tslint:disable-next-line:no-string-literal
-          this.articles = res['articles'];
-        });
-      };
-      if(data.length ===3) {
-        this.profile.getFavArtical(data[1].path).subscribe(res => {
-          this.articles = res['articles'];
-        })
-      }
-    })
-  }
+      if (data.length === 2) {
+        this.profile.getListArtical(data[1].path).subscribe((res: Res) => {
+          console.log(res);
 
+          this.articles = res.articles;
+        });
+      }
+      if (data.length === 3) {
+        this.profile.getFavArtical(data[1].path).subscribe((res: Res) => {
+          console.log(res);
+          this.articles = res.articles;
+        });
+      }
+    });
+  }
+  fav(slug) {
+    this.profile.favourite(slug).subscribe(data => {
+      console.log(data);
+    });
+  }
+  unfav(slug) {
+    this.profile.unfavourite(slug).subscribe(data => {
+      console.log(data);
+    });
+  }
 }

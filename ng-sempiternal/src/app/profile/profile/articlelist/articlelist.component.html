@@ -6,7 +6,7 @@
         <a [routerLink]="['/profile', item.author.username]" class="author">{{item.author.username}}</a>
         <span class="date">{{item.createdAt | date: "short-date"}}</span>
       </div>
-      <button class="btn btn-outline-primary btn-sm pull-xs-right">
+      <button class="btn btn-outline-primary btn-sm pull-xs-right" (click)="!item.favorited? fav(item.slug): unfav(item.slug)" appFavorite favourite={{item.favorited}} [ngClass]="{'favorite':item.favorited}">
         <i class="ion-heart"></i> {{item.favoritesCount}}
       </button>
     </div>

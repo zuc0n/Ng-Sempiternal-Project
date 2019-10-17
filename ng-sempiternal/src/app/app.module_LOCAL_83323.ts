@@ -10,7 +10,6 @@ import { HomeModule } from './home/home.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { SettingsModule } from './settings/settings.module';
 import { EditorModule } from './editor/editor.module';
-import { ArticleModule } from './article/article.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,6 @@ import { ArticleModule } from './article/article.module';
     FormsModule,
     SettingsModule,
     EditorModule,
-    ArticleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

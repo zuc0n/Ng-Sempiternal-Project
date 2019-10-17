@@ -128,5 +128,10 @@ export class HomeComponent implements OnInit {
       this.listArticle = data.articles;
       this.global = false;
     });
+
+
+  }
+  handleArticle() {
+    this.router.navigate(['/article']);
   }
 }

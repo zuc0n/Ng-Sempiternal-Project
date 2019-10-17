@@ -24,11 +24,21 @@ export class ProfileService {
   }
 
   getListArtical(url) {
-    return this.http.get((this.api + `articles?author=${url}&limit=5&offset=0`));
+    return this.http.get((this.api + `articles?author=${url}&limit=5&offset=0`), {
+      headers: new HttpHeaders({
+        'content-type': 'application/json; charset=utf-8',
+        Authorization: `Token ${this.token}`,
+      })
+    });
   }
 
   getFavArtical(url) {
-    return this.http.get((this.api + `articles?favorited=${url}&limit=5&offset=0`));
+    return this.http.get((this.api + `articles?favorited=${url}&limit=5&offset=0`), {
+      headers: new HttpHeaders({
+        'content-type': 'application/json; charset=utf-8',
+        Authorization: `Token ${this.token}`,
+      })
+    });
   }
 
   follow(username) {
@@ -44,6 +54,25 @@ export class ProfileService {
 
   unfollow(username) {
     return this.http.delete((this.api + `profiles/${username}/follow`), {
+      headers: new HttpHeaders({
+        'content-type': 'application/json; charset=utf-8',
+        Authorization: `Token ${this.token}`,
+      })
+    });
+  }
+
+  favourite(slug: string) {
+    return this.http.post((this.api + `articles/${slug}/favorite`), {
+
+    }, {
+      headers: new HttpHeaders({
+        'content-type': 'application/json; charset=utf-8',
+        Authorization: `Token ${this.token}`,
+      })
+    });
+  }
+  unfavourite(slug: string) {
+    return this.http.delete((this.api + `articles/${slug}/favorite`), {
       headers: new HttpHeaders({
         'content-type': 'application/json; charset=utf-8',
         Authorization: `Token ${this.token}`,
