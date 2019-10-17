@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SettingsService } from '../settings.service';
-import { AuthService } from 'src/app/authentication/auth.service';
+import { User } from 'src/app/authentication/user';
+import { Response } from 'src/app/authentication/log-in/log-in.component';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -11,35 +14,38 @@ import { AuthService } from 'src/app/authentication/auth.service';
 export class SettingsComponent implements OnInit {
   settings: FormGroup;
   password = localStorage.getItem('password');
-  constructor(public setting: SettingsService, private auth: AuthService) { }
+  user: User;
+  submitted = false;
+  constructor(public setting: SettingsService, private router: Router) { }
 
   ngOnInit() {
-    console.log(this.auth.user);
     this.settings = new FormGroup({
-      // tslint:disable-next-line: object-literal-key-quotes
-      'image': new FormControl(this.auth.user.image),
-      // tslint:disable-next-line: object-literal-key-quotes
-      'username': new FormControl(this.auth.user.username, Validators.required),
-      // tslint:disable-next-line: object-literal-key-quotes
-      'bio': new FormControl(this.auth.user.bio),
-      // tslint:disable-next-line: object-literal-key-quotes
-      'email': new FormControl(this.auth.user.email, [Validators.required, Validators.required]),
-      // tslint:disable-next-line: object-literal-key-quotes
-      'password': new FormControl(this.password, [Validators.required, Validators.minLength(8)])
+      image: new FormControl(localStorage.getItem('image')),
+      username: new FormControl(localStorage.getItem('username'), Validators.required),
+      bio: new FormControl(localStorage.getItem('bio')),
+      email: new FormControl(localStorage.getItem('email'), [Validators.required, Validators.required]),
+      password: new FormControl(localStorage.getItem('password'), [Validators.required, Validators.minLength(8)])
     });
   }
   onSubmit() {
-    console.log(this.settings.value);
-    this.setting.updateUser(
-      this.settings.value.email,
-      this.settings.value.bio,
-      this.settings.value.image,
-      this.settings.value.username,
-      this.settings.value.password).subscribe(data => {
-      // tslint:disable-next-line: no-string-literal
-      localStorage.setItem('user', JSON.stringify(data['user']));
-      localStorage.setItem('password', this.settings.value.password);
-    });
+    console.log(this.settings);
+    this.setting.updateUser(this.settings.value.email, this.settings.value.bio, this.settings.value.image,
+      this.settings.value.username, this.settings.value.password).subscribe((data: Response) => {
+        this.submitted = true;
+        localStorage.setItem('password', this.settings.value.password);
+        localStorage.setItem('bio', data.user.bio);
+        localStorage.setItem('email', data.user.email);
+        localStorage.setItem('image', data.user.image);
+        localStorage.setItem('username', data.user.username);
+        this.setting.sendUsername(data.user.username);
+        this.router.navigate(['/profile', data.user.username]);
+      });
+  }
+  canDeactive(): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.settings.dirty && this.submitted === false) {
+      return confirm('Your changes are unsaved!! Do you like to exit ?');
+    }
+    return true;
   }
 
   signOut() {

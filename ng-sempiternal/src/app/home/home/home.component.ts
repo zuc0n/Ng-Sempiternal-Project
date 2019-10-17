@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/authentication/auth.service';
 
 export interface Author {
   bio?: string;
@@ -21,7 +22,9 @@ export interface Articles {
   title?: string;
   updatedAt?: string;
 }
-
+export interface Res {
+  articles: Articles[];
+}
 
 @Component({
   selector: 'app-home',
@@ -42,8 +45,9 @@ export class HomeComponent implements OnInit {
   tagPages = [];
   currentIndex = 0;
   localstorage = false;
+  loginStatus: boolean;
 
-  constructor(private apiService: ApiService, private router: Router) { }
+  constructor(private apiService: ApiService, private router: Router, private auth: AuthService) { }
 
   ngOnInit() {
     this.apiService.feedArticle(this.offset).subscribe(data => {
@@ -62,9 +66,15 @@ export class HomeComponent implements OnInit {
       // tslint:disable-next-line: no-string-literal
       this.listTags = data['tags'];
     });
-    if (localStorage.getItem('jwtToken') != null) {
-      return this.localstorage = true;
+    if (localStorage.getItem('jwtToken') !== null) {
+      this.localstorage = true;
+      this.loginStatus = true;
     }
+
+    this.auth.isLoggedIn.subscribe(data => {
+      console.log(data);
+      this.loginStatus = data;
+    });
   }
 
   handleTag(tag) {
@@ -105,16 +115,23 @@ export class HomeComponent implements OnInit {
   }
 
   handleFavorite(favor) {
-    if (!localStorage.getItem('token')) {
+    if (!localStorage.getItem('jwtToken')) {
       this.router.navigate(['/signin']);
     } else {
       if (favor === true) {
-       favor.favoritesCount--;
+        favor.favoritesCount--;
       }
     }
   }
+  handleYourFeed() {
+    this.apiService.getFeed(this.offset).subscribe((data: Res) => {
+      this.listArticle = data.articles;
+      this.global = false;
+    });
 
+
+  }
   handleArticle() {
-    this.router.navigate(['/article', ]);
+    this.router.navigate(['/article']);
   }
 }

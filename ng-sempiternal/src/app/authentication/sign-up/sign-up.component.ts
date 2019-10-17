@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { Response } from '../log-in/log-in.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -24,13 +25,15 @@ export class SignUpComponent implements OnInit {
     this.submitted = true;
 
     this.authService.register(this.user.value.username, this.user.value.email, this.user.value.password).subscribe(
-      (res) => {
+      (res: Response) => {
         this.authService.isLoggedIn.emit(true);
-        // tslint:disable-next-line: no-string-literal
-        this.authService.user = res['user'];
-        // tslint:disable-next-line: no-string-literal
-        localStorage.setItem('jwtToken', res['user'].token);
+        localStorage.setItem('bio', res.user.bio);
+        localStorage.setItem('email', res.user.email);
+        localStorage.setItem('image', res.user.image);
+        localStorage.setItem('username', res.user.username);
+        localStorage.setItem('jwtToken', res.user.token);
         localStorage.setItem('password', this.user.value.password);
+        this.authService.sendUser(res.user);
         this.router.navigate(['/']);
       },
       err => console.log(err)

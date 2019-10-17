@@ -16,8 +16,8 @@
                 </a>
             </li>
             <li class="nav-item" *ngIf="status">
-                <a class="nav-link" [routerLink]="['/profile', authService.user.username]">
-                    {{authService.user.username}}
+                <a class="nav-link" [routerLink]="['/profile', username]">
+                    {{username}}
                 </a>
             </li>
             <li class="nav-item" *ngIf="!status">

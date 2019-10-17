@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileService } from './profile.service';
-import { FavouritesComponent } from './profile/favourites/favourites.component';
 import { ArticlelistComponent } from './profile/articlelist/articlelist.component';
+import { FavoriteDirective } from './favorite.directive';
 
 
 @NgModule({
-  declarations: [ProfileComponent, FavouritesComponent, ArticlelistComponent],
+  declarations: [ProfileComponent, ArticlelistComponent, FavoriteDirective],
   imports: [
     CommonModule,
     ProfileRoutingModule

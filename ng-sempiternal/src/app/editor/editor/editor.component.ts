@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PublishService } from '../publish.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-editor',
@@ -44,5 +45,12 @@ export class EditorComponent implements OnInit {
       },
       err => console.log(err)
     );
+  }
+
+  canDeactive(): Observable<boolean> | Promise<boolean> | boolean {
+    if (this.publishForm.dirty && this.submitted === false) {
+      return confirm('Your changes are unsaved!! Do you like to exit ?');
+    }
+    return true;
   }
 }
