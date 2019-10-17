@@ -51,7 +51,7 @@ export class ArticleComponent implements OnInit {
   });
   renderFollow: string;
   renderFavorite: string;
-  username: string = localStorage.getItem('user');
+  username: string = localStorage.getItem('username');
   articlesUrl = 'https://conduit.productionready.io/api/articles/';
   constructor(private route: ActivatedRoute, private http: HttpClient, private publish: PublishService, private router: Router) { }
 
@@ -88,6 +88,7 @@ export class ArticleComponent implements OnInit {
         this.comments = comment.comments;
       });
     });
+    this.commentForm.controls.body.setValue('');
   }
 
   handleDeleteComment(id: string) {

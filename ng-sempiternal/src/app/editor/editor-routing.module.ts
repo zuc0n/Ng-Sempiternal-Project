@@ -8,6 +8,8 @@ import { CanDeactivateGuard } from '../settings/can-deactive.guard';
 const editorRoutes: Routes = [{
   path: 'editor', component: EditorComponent, canDeactivate: [CanDeactivateGuard]
 }, {
+  path: 'editor/:slug', component: EditorComponent
+}, {
   path: 'article/:slug', component: ArticleComponent
 }];
 
