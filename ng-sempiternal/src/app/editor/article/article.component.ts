@@ -51,7 +51,7 @@ export class ArticleComponent implements OnInit {
   });
   renderFollow: string;
   renderFavorite: string;
-  username: string = localStorage.getItem('user.username');
+  username: string = localStorage.getItem('user');
   articlesUrl = 'https://conduit.productionready.io/api/articles/';
   constructor(private route: ActivatedRoute, private http: HttpClient, private publish: PublishService, private router: Router) { }
 
@@ -83,16 +83,18 @@ export class ArticleComponent implements OnInit {
     this.newComment = {
       comment: this.commentForm.value
     };
-    this.publish.postComment(this.getSlug, this.newComment).subscribe();
-    this.publish.getComment(this.getSlug).subscribe((comment: Comment) => {
-      this.comments = comment.comments;
+    this.publish.postComment(this.getSlug, this.newComment).subscribe(data => {
+      this.publish.getComment(this.getSlug).subscribe((comment: Comment) => {
+        this.comments = comment.comments;
+      });
     });
   }
 
   handleDeleteComment(id: string) {
-    this.publish.deleteComment(this.getSlug, id).subscribe();
-    this.publish.getComment(this.getSlug).subscribe((comment: Comment) => {
-      this.comments = comment.comments;
+    this.publish.deleteComment(this.getSlug, id).subscribe(data => {
+      this.publish.getComment(this.getSlug).subscribe((comment: Comment) => {
+        this.comments = comment.comments;
+      });
     });
   }
 

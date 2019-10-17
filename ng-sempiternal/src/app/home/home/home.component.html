@@ -29,7 +29,7 @@
 
                 <div class="article-preview" *ngFor="let feed of listArticle">
                     <div class="article-meta">
-                        <a href="profile.html"><img [src]="feed.author.image" /></a>
+                        <a [routerLink]="['/profile', feed.author.username]"><img [src]="feed.author.image" /></a>
                         <div class="info">
                             <a [routerLink]="['/profile', feed.author.username]"
                                 class="author">{{ feed.author.username }}</a>
