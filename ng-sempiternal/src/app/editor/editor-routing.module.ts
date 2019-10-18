@@ -3,10 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { EditorComponent } from './editor/editor.component';
 import { ArticleComponent } from './article/article.component';
 import { CanDeactivateGuard } from '../settings/can-deactive.guard';
+import { IsLoginGuard } from '../authentication/is-login.guard';
 
 
 const editorRoutes: Routes = [{
-  path: 'editor', component: EditorComponent, canDeactivate: [CanDeactivateGuard]
+  path: 'editor', component: EditorComponent, canDeactivate: [CanDeactivateGuard], canActivate: [IsLoginGuard]
 }, {
   path: 'article/:slug', component: ArticleComponent
 }];
