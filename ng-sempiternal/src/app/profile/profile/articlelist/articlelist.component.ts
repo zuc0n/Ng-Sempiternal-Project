@@ -31,35 +31,18 @@ export class ArticlelistComponent implements OnInit {
   }
   handleClick(status, slug, index) {
     this.articles = this.articles.map((item, i) => {
-      console.log(item);
       if (i == index) {
-        alert('vao')
-        item.favorited = !item.favorited
+        item.favorited = !item.favorited;
+        status? item.favoritesCount-- : item.favoritesCount++;
       }
       return item;
     })
-    if(status === true) {
-      console.log(status);
-
-      this.unfav(slug);
-    }else {
-      console.log(status);
-
-      this.fav(slug);
-    }
+    status ? this.unfav(slug) : this.fav(slug);
   }
   fav(slug) {
-    this.profile.favourite(slug).subscribe(data => {
-      console.log('like');
-      
-      console.log(data);
-    });
+    this.profile.favourite(slug).subscribe();
   }
   unfav(slug) {
-    this.profile.unfavourite(slug).subscribe(data => {
-      console.log('unlike');
-
-      console.log(data);
-    });
+    this.profile.unfavourite(slug).subscribe();
   }
 }

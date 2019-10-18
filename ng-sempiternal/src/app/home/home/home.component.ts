@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/authentication/auth.service';
+import { ProfileService } from 'src/app/profile/profile.service';
 
 export interface Author {
   bio?: string;
@@ -47,7 +48,7 @@ export class HomeComponent implements OnInit {
   localstorage = false;
   loginStatus: boolean;
 
-  constructor(private apiService: ApiService, private router: Router, private auth: AuthService) { }
+  constructor(private apiService: ApiService, private router: Router, private auth: AuthService, private profile: ProfileService) { }
 
   ngOnInit() {
     this.apiService.feedArticle(this.offset).subscribe(data => {
@@ -133,5 +134,22 @@ export class HomeComponent implements OnInit {
   }
   handleArticle() {
     this.router.navigate(['/article']);
+  }
+
+  handleClick(status, slug, index) {
+    this.listArticle = this.listArticle.map((item, i) => {
+      if (i == index) {
+        item.favorited = !item.favorited;
+        status? item.favoritesCount-- : item.favoritesCount++;
+      }
+      return item;
+    })
+    status ? this.unfav(slug) : this.fav(slug);
+  }
+  fav(slug) {
+    this.profile.favourite(slug).subscribe();
+  }
+  unfav(slug) {
+    this.profile.unfavourite(slug).subscribe();
   }
 }
