@@ -18,6 +18,7 @@ export class EditorComponent implements OnInit {
   constructor(private publishService: PublishService, private router: Router, private activated: ActivatedRoute) { }
 
   ngOnInit() {
+
     this.publishForm = new FormGroup({
       // tslint:disable-next-line: object-literal-key-quotes
       title: new FormControl('', [Validators.required, Validators.minLength(2)]),
@@ -34,8 +35,11 @@ export class EditorComponent implements OnInit {
       if (this.idArticle !== null) {
         this.publishService.getArticle(this.idArticle).subscribe(data => {
           console.log(data);
+          // tslint:disable-next-line: no-string-literal
           this.publishForm.controls.title.setValue(data['article'].title);
+          // tslint:disable-next-line: no-string-literal
           this.publishForm.controls.body.setValue(data['article'].body);
+          // tslint:disable-next-line: no-string-literal
           this.publishForm.controls.description.setValue(data['article'].description);
         });
       }
@@ -45,20 +49,31 @@ export class EditorComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     console.log(this.publishForm);
-    this.publishService.publish(
-      this.publishForm.value.title,
-      this.publishForm.value.description,
-      this.publishForm.value.body,
-      this.publishForm.value.tagList
-    ).subscribe(
-      (res) => {
-        console.log(res);
-
-        // tslint:disable-next-line: no-string-literal
-        this.router.navigate(['/article', res['article'].slug]);
-      },
-      err => console.log(err)
-    );
+    const data = {
+      article: this.publishForm.value
+    };
+    if (this.idArticle == null) {
+      this.publishService.publishArticle(data).subscribe(
+        (res) => {
+          console.log(res);
+          // tslint:disable-next-line: no-string-literal
+          this.router.navigate(['/article', res['article'].slug]);
+        },
+        err => console.log(err)
+      );
+    } else {
+      this.publishService.editArticle(
+        this.idArticle,
+        data
+      ).subscribe(
+        (res) => {
+          console.log(res);
+          // tslint:disable-next-line: no-string-literal
+          this.router.navigate(['/article', res['article'].slug]);
+        },
+        err => console.log(err)
+      );
+    }
   }
 
   canDeactive(): Observable<boolean> | Promise<boolean> | boolean {

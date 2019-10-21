@@ -6,21 +6,25 @@
             <h1> {{ article?.title }}</h1>
 
             <div class="article-meta">
-                <a [routerLink]="['/profile', article?.author?.username]" ><img [src]="article?.author?.image" /></a>
+                <a [routerLink]="['/profile', article?.author?.username]"><img [src]="article?.author?.image" /></a>
                 <div class="info">
-                    <a  [routerLink]="['/profile', article?.author?.username]" class="author"> {{ article?.author?.username }} </a>
+                    <a [routerLink]="['/profile', article?.author?.username]" class="author">
+                        {{ article?.author?.username }} </a>
                     <span class="date"> {{ article?.createdAt | date }}</span>
                 </div>
-                <button class="btn btn-sm btn-outline-primary" *ngIf=!isAuthor (click)="handleFollow()">
+                <button class="btn btn-sm btn-outline-primary" *ngIf=!isAuthor
+                    (click)="handleFollow(article?.author?.following,article?.author?.username)">
                     <i class="ion-plus-round"></i>
                     &nbsp;
-                    Follow {{ article?.author?.username }} <span class="counter">({{ article?.favoritesCount }})</span>
+                    {{renderFollow}} {{ article?.author?.username }} <span
+                        class="counter"></span>
                 </button>
                 &nbsp;
-                <button class="btn btn-sm btn-outline-primary" *ngIf="!isAuthor "(click)="handleFavorite()">
+                <button class="btn btn-sm btn-outline-primary" *ngIf="!isAuthor "
+                    (click)="handleFavorite(article?.favorited)">
                     <i class="ion-heart"></i>
                     &nbsp;
-                    Favorite Post <span class="counter">({{ article?.favoritesCount }})</span>
+                    {{renderFavorite}} Post <span class="counter">({{ article?.favoritesCount }})</span>
                 </button>
                 &nbsp;
                 <button class="btn btn-sm btn-outline-secondary" *ngIf=isAuthor (click)="handleEditArticle()">
@@ -44,8 +48,11 @@
         <div class="row article-content">
             <div class="col-md-12">
                 <p>
-                    {{ article?.description}}
+                    <markdown class="variable-binding" [data]="article?.body"></markdown>
                 </p>
+                <ul class="tag-list">
+                    <li class="tag-default tag-pill tag-outline" *ngFor="let tag of article?.tagList">{{tag}}</li>
+                  </ul>
             </div>
         </div>
 
@@ -55,20 +62,24 @@
             <div class="article-meta">
                 <a [routerLink]="['/profile', article?.author?.username]"><img [src]="article?.author?.image" /></a>
                 <div class="info">
-                    <a [routerLink]="['/profile', article?.author?.username]" class="author">{{ article?.author?.username }}</a>
+                    <a [routerLink]="['/profile', article?.author?.username]"
+                        class="author">{{ article?.author?.username }}</a>
                     <span class="date">{{ article?.createdAt | date: 'longDate' }}</span>
                 </div>
 
-                <button class="btn btn-sm btn-outline-secondary" *ngIf="!isAuthor "(click)="handleFollow()">
+                <button class="btn btn-sm btn-outline-secondary" *ngIf="!isAuthor "
+                    (click)="handleFollow( article?.author?.following, article?.author?.username )">
                     <i class="ion-plus-round"></i>
                     &nbsp;
-                    Follow {{ article?.author?.username }} <span class="counter">({{ article?.favoritesCount }})</span>
+                    {{renderFollow}} {{ article?.author?.username }} <span
+                        class="counter"></span>
                 </button>
                 &nbsp;
-                <button class="btn btn-sm btn-outline-secondary" *ngIf="!isAuthor "(click)="handleFavorite()">
+                <button class="btn btn-sm btn-outline-secondary" *ngIf="!isAuthor "
+                    (click)="handleFavorite(article?.favorited)">
                     <i class="ion-heart"></i>
                     &nbsp;
-                    Favorite Post <span class="counter">({{ article?.favoritesCount }})</span>
+                    {{renderFavorite}} Post <span class="counter">({{ article?.favoritesCount }})</span>
                 </button>
                 &nbsp;
                 <button class="btn btn-sm btn-outline-secondary" *ngIf="isAuthor" (click)="handleEditArticle()">
@@ -91,11 +102,12 @@
 
                 <form class="card comment-form" [formGroup]="commentForm" (ngSubmit)="handleComment()">
                     <div class="card-block">
-                        <textarea class="form-control" placeholder="Write a comment..." rows="3" formControlName="body"></textarea>
+                        <textarea class="form-control" placeholder="Write a comment..." rows="3"
+                            formControlName="body"></textarea>
                     </div>
                     <div class="card-footer">
                         <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-                        <button class="btn btn-sm btn-primary" >
+                        <button class="btn btn-sm btn-primary">
                             Post Comment
                         </button>
                     </div>
