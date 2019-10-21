@@ -25,6 +25,7 @@ export interface Articles {
 }
 export interface Res {
   articles: Articles[];
+  articlesCount: number;
 }
 
 @Component({
@@ -34,6 +35,7 @@ export interface Res {
 })
 export class HomeComponent implements OnInit {
 
+  urlPic = 'https://static.productionready.io/images/smiley-cyrus.jpg';
   listArticle: Articles[];
   isLoading = true;
   listTags;
@@ -59,6 +61,7 @@ export class HomeComponent implements OnInit {
       this.global = false;
       this.apiService.getFeed(this.offset).subscribe((data: Res) => {
         this.isLoading = false;
+        console.log(data);
         this.listArticle = data.articles;
       });
     });
@@ -91,18 +94,10 @@ export class HomeComponent implements OnInit {
   }
 
   handleTag(tag) {
-    this.apiService.feedArticle(this.offset, tag).subscribe(data => {
-      // tslint:disable-next-line: no-string-literal
-      this.listArticle = data['articles'];
-      // tslint:disable-next-line: no-string-literal
-      this.countArticles = data['countArticles'];
+    this.apiService.feedArticle(this.offset, tag).subscribe((data: Res) => {
+      this.listArticle = data.articles;
       console.log(this.listArticle, this.countArticles);
-      // tslint:disable-next-line: no-string-literal
-      this.countArticles = data['articlesCount'];
-      this.countPages = Math.ceil(this.countArticles / 10);
-      for (let i = 1; i <= this.countPages; i++) {
-        this.tagPages.push(i);
-      }
+      this.handlePag(data);
     });
 
     this.checkTabTag = true;
@@ -116,10 +111,10 @@ export class HomeComponent implements OnInit {
     this.global = true;
     this.local = false;
     this.checkTabTag = false;
-    this.apiService.feedArticle(this.offset).subscribe(data => {
+    this.apiService.feedArticle(this.offset).subscribe((data: Res) => {
       this.isLoading = false;
-      // tslint:disable-next-line: no-string-literal
-      this.listArticle = data['articles'];
+      this.listArticle = data.articles;
+      this.handlePag(data);
     });
   }
 
@@ -143,6 +138,7 @@ export class HomeComponent implements OnInit {
   handleYourFeed() {
     this.isLoading = true;
     this.apiService.getFeed(this.offset).subscribe((data: Res) => {
+      this.handlePag(data);
       this.isLoading = false;
       this.listArticle = data.articles;
       this.local = true;
@@ -155,7 +151,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/article']);
   }
 
-  handleClick(status, slug, index) {
+  handleClick(status, slug: string, index) {
     if (localStorage.getItem('jwtToken')) {
       this.listArticle = this.listArticle.map((item, i) => {
         if (i === index) {
@@ -170,10 +166,18 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  fav(slug) {
+  fav(slug: string) {
     this.profile.favourite(slug).subscribe();
   }
-  unfav(slug) {
+  unfav(slug: string) {
     this.profile.unfavourite(slug).subscribe();
+  }
+
+  handlePag(data: Res) {
+    this.countArticles = data.articlesCount;
+    this.countPages = Math.ceil(this.countArticles / 10);
+    for (let i = 1; i <= this.countPages; i++) {
+      this.pages.push(i);
+    }
   }
 }

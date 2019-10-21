@@ -55,11 +55,10 @@ export class ArticlelistComponent implements OnInit {
       this.router.navigate(['/signin']);
     }
   }
-
-  fav(slug) {
+  fav(slug: string) {
     this.profile.favourite(slug).subscribe();
   }
-  unfav(slug) {
+  unfav(slug: string) {
     this.profile.unfavourite(slug).subscribe();
   }
 }
