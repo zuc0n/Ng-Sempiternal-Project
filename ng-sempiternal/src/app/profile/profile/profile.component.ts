@@ -43,13 +43,13 @@ export class ProfileComponent implements OnInit {
   }
 
   follow() {
-    if(localStorage.getItem('jwtToken')){
+    if (localStorage.getItem('jwtToken')) {
       this.profile.follow(this.username).subscribe((data: Data) => {
         console.log(data);
         this.followStatus = data.profile.following;
-      })
-    }else {
-      this.router.navigate(['/signin'])
+      });
+    } else {
+      this.router.navigate(['/signin']);
     }
   }
 
@@ -57,7 +57,7 @@ export class ProfileComponent implements OnInit {
     this.profile.unfollow(this.username).subscribe((data: Data) => {
       console.log(data);
       this.followStatus = data.profile.following;
-    })
+    });
   }
 
 }

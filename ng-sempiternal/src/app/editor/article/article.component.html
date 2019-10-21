@@ -6,21 +6,33 @@
             <h1> {{ article?.title }}</h1>
 
             <div class="article-meta">
-                <a href=""><img [src]="article?.author?.image" /></a>
+                <a [routerLink]="['/profile', article?.author?.username]" ><img [src]="article?.author?.image" /></a>
                 <div class="info">
-                    <a href="" class="author"> {{ article?.author?.username }} </a>
+                    <a  [routerLink]="['/profile', article?.author?.username]" class="author"> {{ article?.author?.username }} </a>
                     <span class="date"> {{ article?.createdAt | date }}</span>
                 </div>
-                <button class="btn btn-sm btn-outline-secondary">
+                <button class="btn btn-sm btn-outline-primary" *ngIf=!isAuthor (click)="handleFollow()">
                     <i class="ion-plus-round"></i>
                     &nbsp;
                     Follow {{ article?.author?.username }} <span class="counter">({{ article?.favoritesCount }})</span>
                 </button>
-                &nbsp;&nbsp;
-                <button class="btn btn-sm btn-outline-primary">
+                &nbsp;
+                <button class="btn btn-sm btn-outline-primary" *ngIf="!isAuthor "(click)="handleFavorite()">
                     <i class="ion-heart"></i>
                     &nbsp;
                     Favorite Post <span class="counter">({{ article?.favoritesCount }})</span>
+                </button>
+                &nbsp;
+                <button class="btn btn-sm btn-outline-secondary" *ngIf=isAuthor (click)="handleEditArticle()">
+                    <i class="ion-edit"></i>
+                    &nbsp;
+                    Edit Article
+                </button>
+                &nbsp;&nbsp;
+                <button class="btn btn-sm btn-outline-danger" *ngIf=isAuthor (click)="handleDeleteArticle()">
+                    <i class="ion-trash-a"></i>
+                    &nbsp;
+                    Delete Article
                 </button>
             </div>
 
@@ -41,22 +53,34 @@
 
         <div class="article-actions">
             <div class="article-meta">
-                <a href="profile.html"><img [src]="article?.author?.image" /></a>
+                <a [routerLink]="['/profile', article?.author?.username]"><img [src]="article?.author?.image" /></a>
                 <div class="info">
-                    <a href="" class="author">{{ article?.author?.username }}</a>
-                    <span class="date">{{ article?.createdAt | date }}</span>
+                    <a [routerLink]="['/profile', article?.author?.username]" class="author">{{ article?.author?.username }}</a>
+                    <span class="date">{{ article?.createdAt | date: 'longDate' }}</span>
                 </div>
 
-                <button class="btn btn-sm btn-outline-secondary">
+                <button class="btn btn-sm btn-outline-secondary" *ngIf="!isAuthor "(click)="handleFollow()">
                     <i class="ion-plus-round"></i>
                     &nbsp;
                     Follow {{ article?.author?.username }} <span class="counter">({{ article?.favoritesCount }})</span>
                 </button>
                 &nbsp;
-                <button class="btn btn-sm btn-outline-primary">
+                <button class="btn btn-sm btn-outline-secondary" *ngIf="!isAuthor "(click)="handleFavorite()">
                     <i class="ion-heart"></i>
                     &nbsp;
                     Favorite Post <span class="counter">({{ article?.favoritesCount }})</span>
+                </button>
+                &nbsp;
+                <button class="btn btn-sm btn-outline-secondary" *ngIf="isAuthor" (click)="handleEditArticle()">
+                    <i class="ion-edit"></i>
+                    &nbsp;
+                    Edit Article
+                </button>
+                &nbsp;&nbsp;
+                <button class="btn btn-sm btn-outline-danger" *ngIf="isAuthor" (click)="handleDeleteArticle()">
+                    <i class="ion-trash-a"></i>
+                    &nbsp;
+                    Delete Article
                 </button>
             </div>
         </div>
@@ -71,7 +95,7 @@
                     </div>
                     <div class="card-footer">
                         <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-                        <button class="btn btn-sm btn-primary" (click)="handleComment()">
+                        <button class="btn btn-sm btn-primary" >
                             Post Comment
                         </button>
                     </div>
@@ -89,7 +113,7 @@
                         <a href="" class="comment-author">{{comment?.author?.username}}</a>
                         <span class="date-posted">{{comment?.createdAt | date}}</span>
                         <span class="mod-options">
-                            <i class="ion-trash-a" (click)="handleDeleteComment()"></i>
+                            <i class="ion-trash-a" (click)="handleDeleteComment(comment?.id)"></i>
                         </span>
                     </div>
                 </div>

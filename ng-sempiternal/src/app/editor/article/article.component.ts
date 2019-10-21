@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { PublishService } from '../publish.service';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -51,16 +51,23 @@ export class ArticleComponent implements OnInit {
   });
   renderFollow: string;
   renderFavorite: string;
-  username: string = localStorage.getItem('user');
+  username: string = localStorage.getItem('username');
   articlesUrl = 'https://conduit.productionready.io/api/articles/';
-  constructor(private route: ActivatedRoute, private http: HttpClient, private publish: PublishService) { }
+  constructor(private route: ActivatedRoute, private http: HttpClient, private publish: PublishService, private router: Router) { }
 
   ngOnInit() {
+    console.log(this.username);
     this.route.paramMap.subscribe(params => {
       this.getSlug = params.get('slug');
     });
 
     this.publish.getArticle(this.getSlug).subscribe((article: Article) => {
+      if (article.article.author.username !== this.username) {
+        this.isAuthor = false;
+        console.log(this.isAuthor);
+      } else {
+        this.isAuthor = true;
+      }
       this.article = article.article;
     });
 
@@ -76,19 +83,37 @@ export class ArticleComponent implements OnInit {
     this.newComment = {
       comment: this.commentForm.value
     };
-    console.log(this.newComment);
-    this.publish.postComment(this.getSlug, this.newComment).subscribe();
-    this.publish.getComment(this.getSlug).subscribe((comment: Comment) => {
-      this.comments = comment.comments;
-      console.log(this.comments);
+    this.publish.postComment(this.getSlug, this.newComment).subscribe(data => {
+      this.publish.getComment(this.getSlug).subscribe((comment: Comment) => {
+        this.comments = comment.comments;
+      });
+    });
+    this.commentForm.controls.body.setValue('');
+  }
+
+  handleDeleteComment(id: string) {
+    this.publish.deleteComment(this.getSlug, id).subscribe(data => {
+      this.publish.getComment(this.getSlug).subscribe((comment: Comment) => {
+        this.comments = comment.comments;
+      });
     });
   }
 
-  handleDeleteComment(id) {
-    this.publish.deleteComment(this.getSlug, id).subscribe();
-    this.publish.getComment(this.getSlug).subscribe((comment: Comment) => {
-      this.comments = comment.comments;
-      console.log(this.comments);
+  handleEditArticle() {
+    this.router.navigate(['/editor', this.getSlug]);
+  }
+
+  handleDeleteArticle() {
+    this.publish.deleteArticle(this.getSlug).subscribe(data => {
+      this.router.navigate(['']);
     });
+  }
+
+  handleFollow() {
+
+  }
+
+  handleFavorite() {
+
   }
 }

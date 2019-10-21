@@ -9,6 +9,8 @@ import { IsLoginGuard } from '../authentication/is-login.guard';
 const editorRoutes: Routes = [{
   path: 'editor', component: EditorComponent, canDeactivate: [CanDeactivateGuard], canActivate: [IsLoginGuard]
 }, {
+  path: 'editor/:slug', component: EditorComponent
+}, {
   path: 'article/:slug', component: ArticleComponent
 }];
 

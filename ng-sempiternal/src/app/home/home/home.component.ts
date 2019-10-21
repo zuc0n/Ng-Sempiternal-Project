@@ -35,7 +35,9 @@ export interface Res {
 export class HomeComponent implements OnInit {
 
   listArticle: Articles[];
+  isLoading = true;
   listTags;
+  local = true;
   global = true;
   offset = 0;
   countArticles: number;
@@ -51,17 +53,27 @@ export class HomeComponent implements OnInit {
   constructor(private apiService: ApiService, private router: Router, private auth: AuthService, private profile: ProfileService) { }
 
   ngOnInit() {
-    this.apiService.feedArticle(this.offset).subscribe(data => {
-      // tslint:disable-next-line: no-string-literal
-      this.listArticle = data['articles'];
-      console.log(this.listArticle);
-      // tslint:disable-next-line: no-string-literal
-      this.countArticles = data['articlesCount'];
-      this.countPages = Math.ceil(this.countArticles / 10);
-      for (let i = 1; i <= this.countPages; i++) {
-        this.pages.push(i);
-      }
-    });
+    if (localStorage.getItem('username') !== null) {
+      this.local = true;
+      this.global = false;
+      this.apiService.getFeed(this.offset).subscribe((data: Res) => {
+        this.isLoading = false;
+        this.listArticle = data.articles;
+      });
+    } else {
+      this.apiService.feedArticle(this.offset).subscribe(data => {
+        this.isLoading = false;
+        // tslint:disable-next-line: no-string-literal
+        this.listArticle = data['articles'];
+        console.log(this.listArticle);
+        // tslint:disable-next-line: no-string-literal
+        this.countArticles = data['articlesCount'];
+        this.countPages = Math.ceil(this.countArticles / 10);
+        for (let i = 1; i <= this.countPages; i++) {
+          this.pages.push(i);
+        }
+      });
+    }
 
     this.apiService.tagArticle().subscribe(data => {
       // tslint:disable-next-line: no-string-literal
@@ -96,12 +108,16 @@ export class HomeComponent implements OnInit {
     this.checkTabTag = true;
     this.nameTag = tag;
     this.global = false;
+    this.local = false;
   }
 
   handleGlobal() {
+    this.isLoading = true;
     this.global = true;
+    this.local = false;
     this.checkTabTag = false;
     this.apiService.feedArticle(this.offset).subscribe(data => {
+      this.isLoading = false;
       // tslint:disable-next-line: no-string-literal
       this.listArticle = data['articles'];
     });
@@ -125,8 +141,11 @@ export class HomeComponent implements OnInit {
     }
   }
   handleYourFeed() {
+    this.isLoading = true;
     this.apiService.getFeed(this.offset).subscribe((data: Res) => {
+      this.isLoading = false;
       this.listArticle = data.articles;
+      this.local = true;
       this.global = false;
     });
 

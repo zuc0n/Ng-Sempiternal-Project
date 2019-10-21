@@ -14,7 +14,7 @@
                     <ul class="nav nav-pills outline-active">
                         <li class="nav-item">
                             <a class="nav-link" *ngIf="localstorage" (click)="handleYourFeed()"
-                                [ngClass]="!global ? 'active' : ''">Your
+                                [ngClass]="local ? 'active' : ''">Your
                                 Feed</a>
                         </li>
                         <li class="nav-item">
@@ -26,33 +26,36 @@
                         </li>
                     </ul>
                 </div>
+                <ng-template [ngIf]="isLoading" [ngIfElse]=isRender> Loading Article
 
-                <div class="article-preview" *ngFor="let feed of listArticle; let i = index">
-                    <div class="article-meta">
-                        <a href="profile.html"><img [src]="feed.author.image" /></a>
-                        <div class="info">
-                            <a [routerLink]="['/profile', feed.author.username]"
-                                class="author">{{ feed.author.username }}</a>
-                            <span class="date"> {{ feed.createdAt | date }}</span>
+                </ng-template>
+                <ng-template #isRender>
+                    <div class="article-preview" *ngFor="let feed of listArticle">
+                        <div class="article-meta">
+                            <a [routerLink]="['/profile', feed.author.username]"><img [src]="feed.author.image" /></a>
+                            <div class="info">
+                                <a [routerLink]="['/profile', feed.author.username]"
+                                    class="author">{{ feed.author.username }}</a>
+                                <span class="date"> {{ feed.createdAt | date }}</span>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm pull-xs-right"
+                                (click)="handleFavorite(feed.favorited)">
+                                <i class="ion-heart"></i> {{ feed.favoritesCount }}
+                            </button>
                         </div>
-                        <button class="btn btn-outline-primary btn-sm pull-xs-right"
-                        (click)="handleClick(feed.favorited, feed.slug, i)" [ngClass]="{'active':feed.favorited}">
-                            <i class="ion-heart"></i> {{ feed.favoritesCount }}
-                        </button>
+                        <a class="preview-link" [routerLink]="['/article', feed.slug]">
+                            <h1> {{ feed?.body }}</h1>
+                            <p> {{ feed?.description }}</p>
+                            <span>Read more...</span>
+                        </a>
+                        <ul class="tag-list">
+                            <li class="tag-default tag-pill tag-outline ng-binding ng-scope"
+                                *ngFor="let item of feed.tagList" (click)="handleTag(item)">
+                                {{ item }}
+                            </li>
+                        </ul>
                     </div>
-                    <a class="preview-link" (click)="handleArticle()">
-                        <h1> {{ feed?.body }}</h1>
-                        <p> {{ feed?.description }}</p>
-                        <span>Read more...</span>
-                    </a>
-                    <ul class="tag-list">
-                        <li class="tag-default tag-pill tag-outline ng-binding ng-scope"
-                            *ngFor="let item of feed.tagList" (click)="handleTag(item)">
-                            {{ item }}
-                        </li>
-                    </ul>
-                </div>
-
+                </ng-template>
             </div>
 
             <div class="col-md-3">
