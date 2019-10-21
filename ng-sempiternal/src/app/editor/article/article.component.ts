@@ -89,6 +89,9 @@ export class ArticleComponent implements OnInit {
   }
 
   handleComment() {
+    if (!localStorage.getItem('username')) {
+      this.router.navigate(['/signin']);
+    }
     this.newComment = {
       comment: this.commentForm.value
     };
@@ -126,8 +129,8 @@ export class ArticleComponent implements OnInit {
     this.renderFollow = follow ? 'Follow' : 'Unfollow';
     this.article.author.following = !follow;
     this.article.author.following
-    ? this.publish.follow(username).subscribe()
-    : this.publish.unfollow(username).subscribe();
+      ? this.publish.follow(username).subscribe()
+      : this.publish.unfollow(username).subscribe();
   }
 
   handleFavorite(checkFavorite: string) {
@@ -139,7 +142,7 @@ export class ArticleComponent implements OnInit {
     checkFavorite ? this.article.favoritesCount-- : this.article.favoritesCount++;
     this.article.favorited = !checkFavorite;
     this.article.favorited
-    ? this.publish.favoriteArticle(this.getSlug).subscribe()
-    : this.publish.unFavoriteArticle(this.getSlug).subscribe();
+      ? this.publish.favoriteArticle(this.getSlug).subscribe()
+      : this.publish.unFavoriteArticle(this.getSlug).subscribe();
   }
 }

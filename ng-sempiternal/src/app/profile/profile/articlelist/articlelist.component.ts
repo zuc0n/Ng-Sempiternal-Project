@@ -31,18 +31,18 @@ export class ArticlelistComponent implements OnInit {
   }
   handleClick(status, slug, index) {
     this.articles = this.articles.map((item, i) => {
-      if (i == index) {
+      if (i === index) {
         item.favorited = !item.favorited;
-        status? item.favoritesCount-- : item.favoritesCount++;
+        status ? item.favoritesCount-- : item.favoritesCount++;
       }
       return item;
-    })
+    });
     status ? this.unfav(slug) : this.fav(slug);
   }
-  fav(slug) {
+  fav(slug: string) {
     this.profile.favourite(slug).subscribe();
   }
-  unfav(slug) {
+  unfav(slug: string) {
     this.profile.unfavourite(slug).subscribe();
   }
 }

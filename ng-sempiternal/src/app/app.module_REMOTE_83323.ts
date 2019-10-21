@@ -24,7 +24,6 @@ import { EditorComponent } from './editor/editor/editor.component';
   ],
   imports: [
     BrowserModule,
-    
     HomeModule,
     AuthenticationModule,
     FormsModule,
