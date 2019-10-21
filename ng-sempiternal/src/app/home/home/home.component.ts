@@ -53,28 +53,27 @@ export class HomeComponent implements OnInit {
   constructor(private apiService: ApiService, private router: Router, private auth: AuthService, private profile: ProfileService) { }
 
   ngOnInit() {
-    if (localStorage.getItem('username') !== null) {
+    this.auth.getUser().subscribe(user => {
+      console.log(user);
       this.local = true;
       this.global = false;
       this.apiService.getFeed(this.offset).subscribe((data: Res) => {
         this.isLoading = false;
         this.listArticle = data.articles;
-        console.log(this.listArticle);
       });
-    } else {
-      this.apiService.feedArticle(this.offset).subscribe(data => {
-        this.isLoading = false;
-        // tslint:disable-next-line: no-string-literal
-        this.listArticle = data['articles'];
-        console.log(this.listArticle);
-        // tslint:disable-next-line: no-string-literal
-        this.countArticles = data['articlesCount'];
-        this.countPages = Math.ceil(this.countArticles / 10);
-        for (let i = 1; i <= this.countPages; i++) {
-          this.pages.push(i);
-        }
-      });
-    }
+    });
+    this.apiService.feedArticle(this.offset).subscribe(data => {
+      this.isLoading = false;
+      // tslint:disable-next-line: no-string-literal
+      this.listArticle = data['articles'];
+      console.log(this.listArticle);
+      // tslint:disable-next-line: no-string-literal
+      this.countArticles = data['articlesCount'];
+      this.countPages = Math.ceil(this.countArticles / 10);
+      for (let i = 1; i <= this.countPages; i++) {
+        this.pages.push(i);
+      }
+    });
 
     this.apiService.tagArticle().subscribe(data => {
       // tslint:disable-next-line: no-string-literal
