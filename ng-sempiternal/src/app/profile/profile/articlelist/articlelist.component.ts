@@ -12,33 +12,48 @@ export class ArticlelistComponent implements OnInit {
 
   constructor(private profile: ProfileService, private route: ActivatedRoute, private router: Router) { }
   articles;
+  message: string;
   ngOnInit() {
     this.route.url.subscribe(data => {
       if (data.length === 2) {
         this.profile.getListArtical(data[1].path).subscribe((res: Res) => {
           console.log(res);
+          if (res.articles.length === 0) {
+            this.message = 'Nothing Here Yet ...';
+            this.articles = [];
+          } else {
+            this.articles = res.articles;
+          }
 
-          this.articles = res.articles;
         });
       }
       if (data.length === 3) {
         this.profile.getFavArtical(data[1].path).subscribe((res: Res) => {
           console.log(res);
-          this.articles = res.articles;
+          if (res.articles.length === 0) {
+            this.message = 'Nothing Here Yet ...';
+            this.articles = [];
+          } else {
+            this.articles = res.articles;
+          }
         });
       }
     });
   }
 
   handleClick(status, slug, index) {
-    this.articles = this.articles.map((item, i) => {
-      if (i === index) {
-        item.favorited = !item.favorited;
-        status ? item.favoritesCount-- : item.favoritesCount++;
-      }
-      return item;
-    });
-    status ? this.unfav(slug) : this.fav(slug);
+    if (localStorage.getItem('jwtToken')) {
+      this.articles = this.articles.map((item, i) => {
+        if (i === index) {
+          item.favorited = !item.favorited;
+          status ? item.favoritesCount-- : item.favoritesCount++;
+        }
+        return item;
+      });
+      status ? this.unfav(slug) : this.fav(slug);
+    } else {
+      this.router.navigate(['/signin']);
+    }
   }
   fav(slug: string) {
     this.profile.favourite(slug).subscribe();

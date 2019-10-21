@@ -20,9 +20,9 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.settings = new FormGroup({
-      image: new FormControl(localStorage.getItem('image') != null? localStorage.getItem('image'): ''),
+      image: new FormControl(localStorage.getItem('image') !== 'null' ? localStorage.getItem('image') : ''),
       username: new FormControl(localStorage.getItem('username'), Validators.required),
-      bio: new FormControl(localStorage.getItem('bio') != null? localStorage.getItem('bio'): ''),
+      bio: new FormControl(localStorage.getItem('bio') !== 'null' ? localStorage.getItem('bio') : ''),
       email: new FormControl(localStorage.getItem('email'), [Validators.required, Validators.required]),
       password: new FormControl(localStorage.getItem('password'), [Validators.required, Validators.minLength(8)])
     });

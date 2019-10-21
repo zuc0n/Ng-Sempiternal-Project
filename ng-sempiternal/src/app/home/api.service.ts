@@ -11,7 +11,17 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   feedArticle(offset, tag = ''): Observable<any> {
-    return this.http.get(this.feedUrl, {
+    return (this.token) ? this.http.get(this.feedUrl, {
+      params: {
+        limit: '10',
+        offset,
+        tag
+      },
+      headers: new HttpHeaders({
+        'content-type': 'application/json; charset=utf-8',
+        Authorization: `Token ${this.token}`,
+      })
+    }) : this.http.get(this.feedUrl, {
       params: {
         limit: '10',
         offset,

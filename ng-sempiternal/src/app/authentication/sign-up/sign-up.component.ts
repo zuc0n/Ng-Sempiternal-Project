@@ -3,6 +3,8 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { Response } from '../log-in/log-in.component';
+import { Errors } from '../errors';
+
 
 @Component({
   selector: 'app-sign-up',
@@ -16,6 +18,9 @@ export class SignUpComponent implements OnInit {
     username: new FormControl('', [Validators.required]),
   });
   submitted = false;
+  errors: Errors;
+  errorList: Array<string> = [];
+
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
@@ -36,8 +41,17 @@ export class SignUpComponent implements OnInit {
         this.authService.sendUser(res.user);
         this.router.navigate(['/']);
       },
-      err => console.log(err)
+      (err) => {
+        this.errors = err.error.errors;
+        console.log(Object.keys(this.errors));
+        for (const bug of Object.keys(this.errors)) {
+          this.errorList.push(bug + ' ' + this.errors[bug]);
+        }
+        console.log(this.errorList);
+      }
     );
   }
-
+  clearError() {
+    this.errorList = [];
+  }
 }

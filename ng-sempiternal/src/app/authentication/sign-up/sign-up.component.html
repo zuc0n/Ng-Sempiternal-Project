@@ -8,12 +8,8 @@
                     <a routerLink="/signin">Have an account?</a>
                 </p>
 
-                <ul class="error-messages">
-                    <li *ngIf="submitted && user.controls.email.errors?.email">That email is invalid</li>
-                    <li *ngIf="submitted && user.controls.email.errors?.required">Email is required</li>
-                    <li *ngIf="submitted && user.controls.password.errors?.minlength">That password is too short</li>
-                    <li *ngIf="submitted && user.controls.password.errors?.required">Password is required</li>
-                    <li *ngIf="submitted && user.controls.username.errors?.required">Username is required</li>
+                <ul class="error-messages" *ngIf="submitted && errors">
+                    <li *ngFor="let error of errorList">{{error}}</li>
                 </ul>
                 <form [formGroup]="user" (ngSubmit)="onSubmit()">
                     <fieldset class="form-group">
@@ -25,7 +21,7 @@
                     <fieldset class="form-group">
                         <input class="form-control form-control-lg" type="password" placeholder="Password" formControlName="password">
                     </fieldset>
-                    <button class="btn btn-lg btn-primary pull-xs-right" type="submit">
+                    <button class="btn btn-lg btn-primary pull-xs-right" type="submit" (click)="clearError()">
                         Sign up
                     </button>
                 </form>
