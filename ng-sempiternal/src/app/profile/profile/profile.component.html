@@ -38,13 +38,13 @@
         <div class="articles-toggle">
           <ul class="nav nav-pills outline-active">
             <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/profile', profile.username]" routerLinkActive="active"
+              <a class="nav-link" [routerLink]="['/profile', username]" routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact:
                 true}">My
                 Articles</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/profile', profile.username, 'favourites']"
+              <a class="nav-link" [routerLink]="['/profile', username, 'favourites']"
                 routerLinkActive="active">Favorited Articles</a>
             </li>
           </ul>

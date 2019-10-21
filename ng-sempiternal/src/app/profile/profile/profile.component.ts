@@ -3,6 +3,7 @@ import { ProfileService } from '../profile.service';
 import { Profile } from '../profile';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/authentication/auth.service';
+import { User } from 'src/app/authentication/user';
 
 export interface Profile {
   bio?: string;
@@ -28,14 +29,15 @@ export class ProfileComponent implements OnInit {
   constructor(public profile: ProfileService, private route: ActivatedRoute, public authService: AuthService, private router: Router) { }
 
   ngOnInit() {
+    this.authService.getUser().subscribe((user: User) => {
+      this.currentUser = localStorage.getItem('username');
+    })
     this.currentUser = localStorage.getItem('username');
     this.route.paramMap.subscribe(item => {
       this.username = item.get('username');
       this.profile.username = item.get('username');
       this.profile.getProfile(this.username).subscribe((data: Data) => {
         console.log(data);
-        this.followStatus = data.profile.following;
-        // tslint:disable-next-line:no-string-literal
         this.data = data.profile;
         this.followStatus = data.profile.following;
       });
