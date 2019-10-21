@@ -5,17 +5,19 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class IsLoginGuard implements CanActivate {
+  constructor(private router: Router) {
 
-  constructor() { }
+  }
 
   canActivate(
-    route: ActivatedRouteSnapshot,
+    next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (localStorage.getItem('user')) {
-      return false;
+      return true;
     }
-    return true;
+    this.router.navigate(['/signin']);
+    return false;
   }
 
 }
