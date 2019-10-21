@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { User } from '../user';
+import { Errors } from '../errors';
 
 export interface Response {
   user: User;
@@ -20,7 +21,8 @@ export class LogInComponent implements OnInit {
   });
 
   submitted = false;
-  error: string;
+  errors: Errors;
+  errorList: Array<string> = [];
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
@@ -43,9 +45,16 @@ export class LogInComponent implements OnInit {
         this.router.navigate(['/']);
       },
       (err) => {
-        console.log(err);
-        this.error = Object.keys(err.error.errors)[0] + ' ' + err.error.errors['email or password'];
+        this.errors = err.error.errors;
+        console.log(Object.keys(this.errors));
+        for (const bug of Object.keys(this.errors)) {
+          this.errorList.push(bug + ' ' + this.errors[bug]);
+        }
+        console.log(this.errorList);
       }
     );
+  }
+  clearError() {
+    this.errorList = [];
   }
 }

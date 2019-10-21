@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.authService.getUser().subscribe((user: User) => {
       this.currentUser = localStorage.getItem('username');
-    })
+    });
     this.currentUser = localStorage.getItem('username');
     this.route.paramMap.subscribe(item => {
       this.username = item.get('username');

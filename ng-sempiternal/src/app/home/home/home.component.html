@@ -30,7 +30,7 @@
 
                 </ng-template>
                 <ng-template #isRender>
-                    <div class="article-preview" *ngFor="let feed of listArticle">
+                    <div class="article-preview" *ngFor="let feed of listArticle; let i = index">
                         <div class="article-meta">
                             <a [routerLink]="['/profile', feed.author.username]"><img [src]="feed.author.image" /></a>
                             <div class="info">
@@ -39,7 +39,7 @@
                                 <span class="date"> {{ feed.createdAt | date }}</span>
                             </div>
                             <button class="btn btn-outline-primary btn-sm pull-xs-right"
-                                (click)="handleFavorite(feed.favorited)">
+                                (click)="handleClick(feed.favorited, feed.slug, i)" [ngClass]="{'active':feed.favorited}">
                                 <i class="ion-heart"></i> {{ feed.favoritesCount }}
                             </button>
                         </div>

@@ -59,6 +59,7 @@ export class HomeComponent implements OnInit {
       this.apiService.getFeed(this.offset).subscribe((data: Res) => {
         this.isLoading = false;
         this.listArticle = data.articles;
+        console.log(this.listArticle);
       });
     } else {
       this.apiService.feedArticle(this.offset).subscribe(data => {
@@ -156,15 +157,20 @@ export class HomeComponent implements OnInit {
   }
 
   handleClick(status, slug, index) {
-    this.listArticle = this.listArticle.map((item, i) => {
-      if (i == index) {
-        item.favorited = !item.favorited;
-        status? item.favoritesCount-- : item.favoritesCount++;
-      }
-      return item;
-    })
-    status ? this.unfav(slug) : this.fav(slug);
+    if (localStorage.getItem('jwtToken')) {
+      this.listArticle = this.listArticle.map((item, i) => {
+        if (i === index) {
+          item.favorited = !item.favorited;
+          status ? item.favoritesCount-- : item.favoritesCount++;
+        }
+        return item;
+      });
+      status ? this.unfav(slug) : this.fav(slug);
+    } else {
+      this.router.navigate(['/signin']);
+    }
   }
+
   fav(slug) {
     this.profile.favourite(slug).subscribe();
   }

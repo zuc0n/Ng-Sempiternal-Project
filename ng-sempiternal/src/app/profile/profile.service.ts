@@ -20,7 +20,7 @@ export class ProfileService {
         'content-type': 'application/json; charset=utf-8',
         Authorization: `Token ${this.token}`,
       })
-    }) : this.http.get((this.api + `profiles/${url}`))
+    }) : this.http.get((this.api + `profiles/${url}`));
   }
 
   getListArtical(url) {
@@ -29,7 +29,7 @@ export class ProfileService {
         'content-type': 'application/json; charset=utf-8',
         Authorization: `Token ${this.token}`,
       })
-    }): this.http.get((this.api + `articles?author=${url}&limit=5&offset=0`))
+    }) : this.http.get((this.api + `articles?author=${url}&limit=5&offset=0`));
   }
 
   getFavArtical(url) {
@@ -38,7 +38,7 @@ export class ProfileService {
         'content-type': 'application/json; charset=utf-8',
         Authorization: `Token ${this.token}`,
       })
-    }) : this.http.get((this.api + `articles?favorited=${url}&limit=5&offset=0`))
+    }) : this.http.get((this.api + `articles?favorited=${url}&limit=5&offset=0`));
   }
 
   follow(username) {
