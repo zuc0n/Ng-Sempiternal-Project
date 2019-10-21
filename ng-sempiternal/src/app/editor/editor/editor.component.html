@@ -4,7 +4,7 @@
 
             <div class="col-md-10 offset-md-1 col-xs-12">
                 <ul class="error-messages">
-                    <li *ngIf="submitted && publishForm.controls.title.errors?.required">title can't be blank</li>
+                    <li *ngIf="submitted && publishForm.controls.title.errors?.required && publishForm.controls.title.minlength">title can't be blank</li>
                     <li *ngIf="submitted && publishForm.controls.title.errors?.minlength">title is too short (minimum is 1 character)</li>
                     <li *ngIf="submitted && publishForm.controls.body.errors?.required">body can't be blank</li>
                     <li *ngIf="submitted && publishForm.controls.description.errors?.required">description can't be blank</li>

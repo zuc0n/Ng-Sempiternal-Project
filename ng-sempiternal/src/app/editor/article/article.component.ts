@@ -51,6 +51,7 @@ export class ArticleComponent implements OnInit {
   });
   renderFollow: string;
   renderFavorite: string;
+  token = localStorage.getItem('jwtToken');
   username: string = localStorage.getItem('username');
   articlesUrl = 'https://conduit.productionready.io/api/articles/';
   constructor(private route: ActivatedRoute, private http: HttpClient, private publish: PublishService, private router: Router) { }
@@ -69,14 +70,22 @@ export class ArticleComponent implements OnInit {
         this.isAuthor = true;
       }
       this.article = article.article;
+
+      this.renderFollow = this.article.author.following ? 'UnFollow' : 'Follow';
+      this.renderFavorite = this.article.favorited ? 'Unfavorite' : 'Favorite';
     });
 
     this.publish.getComment(this.getSlug).subscribe((comment: Comment) => {
       this.comments = comment.comments;
       console.log(this.comments);
     });
-    // this.renderFollow = this.article.author.following ? 'UnFollow' : 'Follow';
-    // this.renderFavorite = this.article.favorited ? 'Unfavorite' : 'Favorite';
+
+    if (this.username === null) {
+      this.publish.getArticleNoAuth(this.getSlug).subscribe((article: Article) => {
+        this.renderFollow = this.article.author.following ? 'UnFollow' : 'Follow';
+        this.renderFavorite = this.article.favorited ? 'Unfavorite' : 'Favorite';
+      });
+    }
   }
 
   handleComment() {
@@ -109,11 +118,28 @@ export class ArticleComponent implements OnInit {
     });
   }
 
-  handleFollow() {
+  handleFollow(follow: string, username: string) {
+    if (!(this.token === null ? false : true)) {
+      return this.router.navigate(['/signin']);
+    }
 
+    this.renderFollow = follow ? 'Follow' : 'Unfollow';
+    this.article.author.following = !follow;
+    this.article.author.following
+    ? this.publish.follow(username).subscribe()
+    : this.publish.unfollow(username).subscribe();
   }
 
-  handleFavorite() {
+  handleFavorite(checkFavorite: string) {
+    if (!(this.token === null ? false : true)) {
+      return this.router.navigate(['/signin']);
+    }
 
+    this.renderFavorite = checkFavorite ? 'Favorite' : 'Unfavorite';
+    checkFavorite ? this.article.favoritesCount-- : this.article.favoritesCount++;
+    this.article.favorited = !checkFavorite;
+    this.article.favorited
+    ? this.publish.favoriteArticle(this.getSlug).subscribe()
+    : this.publish.unFavoriteArticle(this.getSlug).subscribe();
   }
 }

@@ -23,10 +23,10 @@ import { ProfileModule } from './profile/profile.module';
     HomeModule,
     AuthenticationModule,
     FormsModule,
-    AppRoutingModule,
     SettingsModule,
     EditorModule,
-    ProfileModule
+    ProfileModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [ AppComponent ]
